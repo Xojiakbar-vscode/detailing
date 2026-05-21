@@ -19,36 +19,36 @@ export default function Footer() {
             </span>
           </Link>
           <p className="text-sm text-gray-400 leading-relaxed">
-            Uncompromising professional auto care. Setting the gold standard in Tashkent for ceramic coating, soundproofing, and bespoke detailing services.
+            Murosasiz professional avtoparvarish. Toshkentda polirovka, keramika, shovqin izolyatsiyasi va premium deteyling bo'yicha oltin standart.
           </p>
           <div className="flex items-center space-x-3 text-xs text-[#00c2ff]">
             <ShieldCheck className="w-4 h-4" />
-            <span>Official Premium Partner Warranty</span>
+            <span>Rasmiy kafolat va oliy sifat</span>
           </div>
         </div>
 
         {/* Services Column */}
         <div>
-          <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-6">Services</h4>
+          <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-6">Xizmatlar</h4>
           <ul className="space-y-3.5 text-sm text-gray-400">
             <li>
               <Link href="/services/polishing-ceramic" className="hover:text-white transition-colors">
-                Polishing & Ceramic
+                Polirovka va Keramika
               </Link>
             </li>
             <li>
               <Link href="/services/shumka" className="hover:text-white transition-colors">
-                Soundproofing (Shumka)
+                Shovqin Izolyatsiyasi (Shumka)
               </Link>
             </li>
             <li>
               <Link href="/services/kuzov-himoyasi" className="hover:text-white transition-colors">
-                Kuzov Himoyasi (PPF Armor)
+                Kuzov Himoyasi (PPF Zirh)
               </Link>
             </li>
             <li>
               <Link href="/services/ximchiska" className="hover:text-white transition-colors">
-                Interior Detailing (Ximchiska)
+                Kimyoviy Tozalash (Ximchiska)
               </Link>
             </li>
           </ul>
@@ -56,20 +56,20 @@ export default function Footer() {
 
         {/* Working Hours Column */}
         <div>
-          <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-6">Working Hours</h4>
+          <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-6">Ish Vaqti</h4>
           <ul className="space-y-4 text-sm text-gray-400">
             <li className="flex items-start space-x-3">
               <Clock className="w-4 h-4 text-[#00c2ff] shrink-0 mt-0.5" />
               <div>
-                <p className="text-white font-medium">Monday - Saturday</p>
-                <p className="text-xs text-gray-500">09:00 AM - 08:00 PM</p>
+                <p className="text-white font-medium">Dushanba - Shanba</p>
+                <p className="text-xs text-gray-500">09:00 - 20:00</p>
               </div>
             </li>
             <li className="flex items-start space-x-3">
               <Clock className="w-4 h-4 text-gray-600 shrink-0 mt-0.5" />
               <div>
-                <p className="text-gray-500 font-medium">Sunday</p>
-                <p className="text-xs text-gray-600">Appointment Only</p>
+                <p className="text-gray-500 font-medium">Yakshanba</p>
+                <p className="text-xs text-gray-600">Faqat yozilish bo'yicha</p>
               </div>
             </li>
           </ul>
@@ -77,11 +77,11 @@ export default function Footer() {
 
         {/* Contact Column */}
         <div>
-          <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-6">Contact & Location</h4>
+          <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-6">Aloqa va Manzil</h4>
           <ul className="space-y-4 text-sm text-gray-400">
             <li className="flex items-start space-x-3">
               <MapPin className="w-4 h-4 text-[#00c2ff] shrink-0 mt-0.5" />
-              <span>Chilonzor District, Bunyodkor Avenue, Tashkent, Uzbekistan</span>
+              <span>Toshkent sh., Chilonzor tumani, Bunyodkor shoh ko'chasi</span>
             </li>
             <li className="flex items-start space-x-3">
               <Phone className="w-4 h-4 text-[#00c2ff] shrink-0 mt-0.5" />
@@ -100,13 +100,13 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500">
-        <p>© {currentYear} APEX DETAILING. All rights reserved.</p>
+        <p>© {currentYear} APEX DETAILING. Barcha huquqlar himoyalangan.</p>
         <div className="flex space-x-6 mt-4 sm:mt-0">
           <Link href="/privacy" className="hover:text-white transition-colors">
-            Privacy Policy
+            Maxfiylik siyosati
           </Link>
           <Link href="/terms" className="hover:text-white transition-colors">
-            Terms of Service
+            Foydalanish shartlari
           </Link>
         </div>
       </div>

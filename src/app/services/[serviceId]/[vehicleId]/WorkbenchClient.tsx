@@ -290,36 +290,36 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
                 )}
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-3 sm:gap-6">
                 {/* Standard Package Card */}
                 <div
                   onClick={() => setSelectedTier("standard")}
-                  className={`relative flex flex-col justify-between p-8 rounded-3xl cursor-pointer glass-panel transition-all duration-300 ${
+                  className={`relative flex flex-col justify-between p-4 sm:p-8 rounded-2xl sm:rounded-3xl cursor-pointer glass-panel transition-all duration-300 ${
                     selectedTier === "standard"
                       ? "border-[#0070f3]/50 bg-[#0070f3]/5 shadow-[0_0_20px_rgba(0,112,243,0.2)]"
                       : "hover:border-white/10"
                   }`}
                 >
                   {selectedTier === "standard" && (
-                    <div className="absolute top-4 right-4 bg-[#0070f3] text-white text-[9px] font-bold tracking-widest uppercase px-3 py-1 rounded-full shadow-md">
+                    <div className="absolute top-3 right-3 bg-[#0070f3] text-white text-[7px] sm:text-[9px] font-bold tracking-widest uppercase px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-md">
                       Faol
                     </div>
                   )}
 
-                  <div className="space-y-6">
+                  <div className="space-y-4 sm:space-y-6">
                     <div>
-                      <h3 className="text-lg font-bold text-white">Standard Paket</h3>
-                      <p className="text-xs text-gray-500 mt-1">Mukammal sifat va zaruriy elementlar</p>
+                      <h3 className="text-sm sm:text-lg font-bold text-white">Standard Paket</h3>
+                      <p className="text-[10px] sm:text-xs text-gray-500 mt-0.5 sm:mt-1">Sifatli va zaruriy elementlar</p>
                     </div>
 
-                    <div className="text-3xl font-black text-[#00c2ff]">
+                    <div className="text-base sm:text-3xl font-black text-[#00c2ff]">
                       {formatUZS(standardBase)}
                     </div>
 
-                    <ul className="space-y-3.5 border-t border-white/5 pt-6 text-sm text-gray-400">
+                    <ul className="space-y-2 sm:space-y-3.5 border-t border-white/5 pt-3 sm:pt-6 text-[10px] sm:text-sm text-gray-400">
                       {getServiceBullets(service.id, "standard").map((bullet, idx) => (
-                        <li key={idx} className="flex items-center space-x-2">
-                          <Check className="w-4 h-4 text-emerald-500 shrink-0" />
+                        <li key={idx} className="flex items-start space-x-1.5 sm:space-x-2">
+                          <Check className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-500 shrink-0 mt-0.5 sm:mt-0" />
                           <span>{bullet}</span>
                         </li>
                       ))}
@@ -330,35 +330,35 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
                 {/* Premium Package Card */}
                 <div
                   onClick={() => setSelectedTier("premium")}
-                  className={`relative flex flex-col justify-between p-8 rounded-3xl cursor-pointer glass-panel transition-all duration-300 relative overflow-hidden ${
+                  className={`relative flex flex-col justify-between p-4 sm:p-8 rounded-2xl sm:rounded-3xl cursor-pointer glass-panel transition-all duration-300 relative overflow-hidden ${
                     selectedTier === "premium"
                       ? "border-[#00c2ff]/60 bg-[#00c2ff]/5 shadow-[0_0_25px_rgba(0,194,255,0.25)]"
                       : "hover:border-white/10"
                   }`}
                 >
                   {/* Glowing light borders */}
-                  <div className={`absolute inset-0 border border-[#00c2ff]/20 animate-glow-pulse pointer-events-none rounded-3xl ${selectedTier === "premium" ? "opacity-100" : "opacity-0"}`} />
+                  <div className={`absolute inset-0 border border-[#00c2ff]/20 animate-glow-pulse pointer-events-none rounded-2xl sm:rounded-3xl ${selectedTier === "premium" ? "opacity-100" : "opacity-0"}`} />
 
                   {selectedTier === "premium" && (
-                    <div className="absolute top-4 right-4 bg-gradient-to-r from-[#0070f3] to-[#00c2ff] text-white text-[9px] font-bold tracking-widest uppercase px-3 py-1 rounded-full shadow-md border border-white/10">
+                    <div className="absolute top-3 right-3 bg-gradient-to-r from-[#0070f3] to-[#00c2ff] text-white text-[7px] sm:text-[9px] font-bold tracking-widest uppercase px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-md border border-white/10">
                       Eng zo'r tanlov
                     </div>
                   )}
 
-                  <div className="space-y-6">
+                  <div className="space-y-4 sm:space-y-6">
                     <div>
-                      <h3 className="text-lg font-bold text-white">Premium Paket</h3>
-                      <p className="text-xs text-gray-500 mt-1">To'liq va maksimal darajadagi natija</p>
+                      <h3 className="text-sm sm:text-lg font-bold text-white">Premium Paket</h3>
+                      <p className="text-[10px] sm:text-xs text-gray-500 mt-0.5 sm:mt-1">To'liq va maksimal darajada</p>
                     </div>
 
-                    <div className="text-3xl font-black text-[#00c2ff]">
+                    <div className="text-base sm:text-3xl font-black text-[#00c2ff]">
                       {formatUZS(premiumBase)}
                     </div>
 
-                    <ul className="space-y-3.5 border-t border-white/5 pt-6 text-sm text-gray-400">
+                    <ul className="space-y-2 sm:space-y-3.5 border-t border-white/5 pt-3 sm:pt-6 text-[10px] sm:text-sm text-gray-400">
                       {getServiceBullets(service.id, "premium").map((bullet, idx) => (
-                        <li key={idx} className="flex items-center space-x-2">
-                          <Check className={`w-4 h-4 shrink-0 ${service.id === "shumka" ? "text-[#a855f7]" : "text-[#00c2ff]"}`} />
+                        <li key={idx} className="flex items-start space-x-1.5 sm:space-x-2">
+                          <Check className={`w-3 h-3 sm:w-4 sm:h-4 shrink-0 mt-0.5 sm:mt-0 ${service.id === "shumka" ? "text-[#a855f7]" : "text-[#00c2ff]"}`} />
                           <span className="text-white font-medium">{bullet}</span>
                         </li>
                       ))}

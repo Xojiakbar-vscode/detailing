@@ -18,7 +18,7 @@ import {
   Gauge
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Service, VEHICLES, Vehicle } from "@/data";
+import { Service, VEHICLES } from "@/data";
 
 const IconMap: { [key: string]: any } = {
   Sparkles,
@@ -63,12 +63,12 @@ export default function ServiceDetailClient({ service }: ClientProps) {
   });
 
   const categoriesList: { name: string; value: CategoryFilter }[] = [
-    { name: "All Vehicles", value: "all" },
-    { name: "Sedans", value: "sedan" },
-    { name: "SUVs", value: "suv" },
-    { name: "Crossovers", value: "crossover" },
-    { name: "Hatchbacks", value: "hatchback" },
-    { name: "Coupes", value: "coupe" },
+    { name: "Barcha avtomobillar", value: "all" },
+    { name: "Sedanlar", value: "sedan" },
+    { name: "Yo'ltanlamaslar (SUV)", value: "suv" },
+    { name: "Krossoverlar", value: "crossover" },
+    { name: "Xetchbeklar", value: "hatchback" },
+    { name: "Kupelar", value: "coupe" },
   ];
 
   // Helper for UZS pricing format
@@ -77,7 +77,7 @@ export default function ServiceDetailClient({ service }: ClientProps) {
   };
 
   return (
-    <div className="relative min-h-screen pt-32 pb-24 px-6">
+    <div className="relative min-h-screen pt-32 pb-24 px-4 sm:px-6">
       {/* Glow background effects */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-blue-600/5 rounded-full blur-[180px] pointer-events-none" />
 
@@ -89,10 +89,10 @@ export default function ServiceDetailClient({ service }: ClientProps) {
             className="inline-flex items-center space-x-2 text-xs font-semibold uppercase tracking-wider text-[#00c2ff] hover:text-white transition-colors duration-200"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to Services</span>
+            <span>Xizmatlarga Qaytish</span>
           </Link>
 
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 bg-white/5 border border-white/5 p-8 rounded-3xl backdrop-blur-md relative overflow-hidden">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 bg-white/5 border border-white/5 p-6 sm:p-8 rounded-3xl backdrop-blur-md relative overflow-hidden">
             {/* Embedded glowing light */}
             <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
             
@@ -101,36 +101,36 @@ export default function ServiceDetailClient({ service }: ClientProps) {
                 <ServiceIcon className="w-6 h-6 animate-pulse" />
                 <span className="text-xs uppercase font-bold tracking-[0.2em]">{service.uzName}</span>
               </div>
-              <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-                {service.title} <span className="text-[#00c2ff]">Pricing</span>
+              <h1 className="text-2xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                {service.uzName} <span className="text-[#00c2ff]">Narxlari</span>
               </h1>
-              <p className="text-sm sm:text-base text-gray-400 font-light leading-relaxed">
-                {service.description} Choose your specific vehicle class below to configure customized detailing packages and receive instant pricing.
+              <p className="text-xs sm:text-base text-gray-400 font-light leading-relaxed">
+                {service.description} Avtomobilingiz rusumini quyida tanlab, individual detailing paketlarini o'zingizga moslab sozlang va aniq narxlarni bilib oling.
               </p>
             </div>
             
             {/* Quick trust metrics */}
             <div className="shrink-0 flex flex-col justify-center space-y-3 relative z-10">
               <div className="bg-black/30 px-6 py-4 rounded-2xl border border-white/5 text-center">
-                <p className="text-2xl font-black text-white">4.9 ★</p>
-                <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Direct Rating</p>
+                <p className="text-xl sm:text-2xl font-black text-white">4.9 ★</p>
+                <p className="text-[8px] sm:text-[10px] text-gray-500 uppercase tracking-widest mt-1">O'rtacha Baho</p>
               </div>
               <div className="bg-black/30 px-6 py-4 rounded-2xl border border-white/5 text-center">
-                <p className="text-2xl font-black text-[#00c2ff]">100%</p>
-                <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Satisfaction Guarantee</p>
+                <p className="text-xl sm:text-2xl font-black text-[#00c2ff]">100%</p>
+                <p className="text-[8px] sm:text-[10px] text-gray-500 uppercase tracking-widest mt-1">Sifat Kafolati</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Dynamic Sticky Filter Panel */}
-        <div className="sticky top-[80px] z-30 bg-[#050505]/80 backdrop-blur-md border border-white/5 p-4 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4 shadow-lg transition-all duration-300">
+        <div className="sticky top-[80px] z-30 bg-[#050505]/80 backdrop-blur-md border border-white/5 p-3 sm:p-4 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4 shadow-lg transition-all duration-300">
           {/* Search bar */}
           <div className="relative w-full md:w-80">
             <Search className="absolute left-4 top-3.5 w-4 h-4 text-gray-500" />
             <input
               type="text"
-              placeholder="Search vehicle model..."
+              placeholder="Avtomobil modelini qidirish..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-white/5 border border-white/5 focus:border-[#00c2ff]/50 text-white pl-11 pr-4 py-3 rounded-xl text-sm focus:outline-none transition-all placeholder-gray-500"
@@ -143,7 +143,7 @@ export default function ServiceDetailClient({ service }: ClientProps) {
               <button
                 key={cat.value}
                 onClick={() => setActiveCategory(cat.value)}
-                className={`text-xs font-semibold px-4 py-2.5 rounded-xl border whitespace-nowrap transition-all duration-200 ${
+                className={`text-[10px] sm:text-xs font-semibold px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border whitespace-nowrap transition-all duration-200 cursor-pointer ${
                   activeCategory === cat.value
                     ? "bg-[#0070f3]/10 text-[#00c2ff] border-[#00c2ff]/30 shadow-[0_0_10px_rgba(0,194,255,0.15)]"
                     : "bg-white/5 text-gray-400 border-white/5 hover:border-white/10"
@@ -155,12 +155,12 @@ export default function ServiceDetailClient({ service }: ClientProps) {
           </div>
         </div>
 
-        {/* Vehicles Grid */}
+        {/* Vehicles Grid: 2 columns on mobile side-by-side, 3 columns on large screens */}
         <AnimatePresence mode="popLayout">
           {filteredVehicles.length > 0 ? (
             <motion.div 
               layout
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+              className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8"
             >
               {filteredVehicles.map((vehicle) => {
                 const isFav = favorites.includes(vehicle.id);
@@ -177,10 +177,10 @@ export default function ServiceDetailClient({ service }: ClientProps) {
                   >
                     <Link
                       href={`/services/${service.id}/${vehicle.id}`}
-                      className="group relative flex flex-col h-[400px] rounded-3xl overflow-hidden glass-panel glass-panel-hover"
+                      className="group relative flex flex-col h-[260px] sm:h-[400px] rounded-2xl sm:rounded-3xl overflow-hidden glass-panel glass-panel-hover"
                     >
                       {/* Vehicle Image */}
-                      <div className="relative h-48 w-full overflow-hidden bg-black/40">
+                      <div className="relative h-24 sm:h-48 w-full overflow-hidden bg-black/40">
                         <img
                           src={vehicle.image}
                           alt={vehicle.name}
@@ -193,45 +193,45 @@ export default function ServiceDetailClient({ service }: ClientProps) {
                         <button
                           type="button"
                           onClick={(e) => toggleFavorite(e, vehicle.id)}
-                          className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 text-gray-400 hover:text-white"
-                          aria-label="Add to favorites"
+                          className="absolute top-2 sm:top-4 right-2 sm:right-4 w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 text-gray-400 hover:text-white cursor-pointer"
+                          aria-label="Sevimlilarga qo'shish"
                         >
-                          <Heart className={`w-4 h-4 transition-colors ${isFav ? "fill-red-500 text-red-500" : ""}`} />
+                          <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-colors ${isFav ? "fill-red-500 text-red-500" : ""}`} />
                         </button>
 
                         {/* Category Badge */}
-                        <span className="absolute bottom-4 left-4 inline-block bg-white/5 backdrop-blur-md border border-white/10 text-[9px] font-bold tracking-widest uppercase text-gray-300 px-3 py-1 rounded-full">
+                        <span className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 inline-block bg-white/5 backdrop-blur-md border border-white/10 text-[8px] sm:text-[9px] font-bold tracking-widest uppercase text-gray-300 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
                           {vehicle.category}
                         </span>
                       </div>
 
                       {/* Content details */}
-                      <div className="flex-grow p-6 flex flex-col justify-between">
-                        <div className="space-y-2">
-                          <h3 className="text-xl font-bold text-white group-hover:text-[#00c2ff] transition-colors">
+                      <div className="flex-grow p-3.5 sm:p-6 flex flex-col justify-between">
+                        <div className="space-y-1 sm:space-y-2">
+                          <h3 className="text-xs sm:text-xl font-bold text-white group-hover:text-[#00c2ff] transition-colors truncate">
                             {vehicle.name}
                           </h3>
-                          <p className="text-[10px] text-gray-500 font-light flex items-center space-x-1">
-                            <Gauge className="w-3.5 h-3.5 text-[#00c2ff]" />
-                            <span>Precision dimensional fit configuration</span>
+                          <p className="text-[8px] sm:text-[10px] text-gray-500 font-light flex items-center space-x-1">
+                            <Gauge className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#00c2ff] shrink-0" />
+                            <span className="truncate">O'lchamlarga mos aniq konfiguratsiya</span>
                           </p>
                         </div>
 
-                        <div className="border-t border-white/5 pt-4 flex items-center justify-between">
+                        <div className="border-t border-white/5 pt-3 sm:pt-4 flex items-center justify-between">
                           <div>
-                            <p className="text-[9px] uppercase tracking-wider text-gray-500 font-bold">Starting Price</p>
-                            <p className="text-lg font-black text-[#00c2ff] mt-0.5">
+                            <p className="text-[7px] sm:text-[9px] uppercase tracking-wider text-gray-500 font-bold">Boshlang'ich narxi</p>
+                            <p className="text-xs sm:text-lg font-black text-[#00c2ff] mt-0.5 whitespace-nowrap">
                               {formatUZS(vehiclePrice)}
                             </p>
                           </div>
-                          <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                          <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)] shrink-0 ml-1">
+                            <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-0.5" />
                           </div>
                         </div>
                       </div>
 
                       {/* Accent glow border */}
-                      <div className="absolute inset-0 border border-transparent rounded-3xl group-hover:border-[#00c2ff]/20 pointer-events-none transition-all duration-300" />
+                      <div className="absolute inset-0 border border-transparent rounded-2xl sm:rounded-3xl group-hover:border-[#00c2ff]/20 pointer-events-none transition-all duration-300" />
                     </Link>
                   </motion.div>
                 );
@@ -243,12 +243,12 @@ export default function ServiceDetailClient({ service }: ClientProps) {
               animate={{ opacity: 1 }}
               className="text-center py-20 bg-white/5 border border-white/5 rounded-3xl backdrop-blur-sm"
             >
-              <p className="text-gray-400 font-light text-base">No vehicles found matching your criteria.</p>
+              <p className="text-gray-400 font-light text-base">Sizning so'rovingizga mos keladigan avtomobil topilmadi.</p>
               <button
                 onClick={() => { setSearchQuery(""); setActiveCategory("all"); }}
-                className="mt-4 text-xs font-bold text-[#00c2ff] hover:underline focus:outline-none"
+                className="mt-4 text-xs font-bold text-[#00c2ff] hover:underline focus:outline-none cursor-pointer"
               >
-                Clear all filters
+                Filtrlarni tozalash
               </button>
             </motion.div>
           )}

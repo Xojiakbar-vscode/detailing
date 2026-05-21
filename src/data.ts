@@ -26,65 +26,65 @@ export interface AnatomyPart {
 export const SERVICES: Service[] = [
   {
     id: "polishing-ceramic",
-    title: "Polishing & Ceramic",
+    title: "Polirovka va Keramika",
     uzName: "Polirovka va Keramika",
-    description: "Premium paint correction followed by advanced 9H ceramic coating for lifetime protection and deep mirror shine.",
+    description: "Kuzovni professional darajada abraziv polirovka qilish va 9H premium keramika qoplamasi yordamida chuqur ko'zgu kabi yorqin jilo hamda uzoq muddatli himoya berish.",
     iconName: "Sparkles",
     image: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?q=80&w=1200&auto=format&fit=crop"
   },
   {
     id: "ximchiska",
-    title: "Ximchiska",
+    title: "Kimyoviy tozalash (Ximchiska)",
     uzName: "Kimyoviy Tozalash",
-    description: "Deep chemical interior dry cleaning. Full disinfection of leather, alcantara, and textiles using eco-friendly agents.",
+    description: "Salon yuzalarini to'liq kimyoviy quruq tozalash. Teri, alkantara va mato detallarini ekologik xavfsiz vositalar bilan chuqur tozalash hamda dezinfeksiya qilish.",
     iconName: "Wind",
     image: "https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=1200&auto=format&fit=crop"
   },
   {
     id: "shumka",
-    title: "Shumka",
+    title: "Shovqin izolyatsiyasi (Shumka)",
     uzName: "Shovqin Izolyatsiyasi",
-    description: "High-grade multi-layer sound and vibration insulation. Eliminate highway noise and engine drone for pure driving luxury.",
+    description: "Premium ComfortMat materiallari bilan ko'p qavatli shovqin va vibratsiya izolyatsiyasi. Yo'l va dvigatel shovqinlarini maksimal darajada bartaraf etish.",
     iconName: "VolumeX",
     image: "https://images.unsplash.com/photo-1517524206127-48bbd363f3d7?q=80&w=1200&auto=format&fit=crop"
   },
   {
     id: "tonirovka",
-    title: "Tonirovka",
+    title: "Oyna qoraytirish (Tonirovka)",
     uzName: "Oyna Qoraytirish",
-    description: "Premium window tinting with advanced thermal and UV protection nano-ceramic films. Compliance guaranteed.",
+    description: "Premium atermal va nano-keramik plyonkalar yordamida oyna qoraytirish. Quyosh issiqligi hamda zararli ultrabinafsha nurlardan 99% gacha kafolatlangan himoya.",
     iconName: "ShieldAlert",
     image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop"
   },
   {
     id: "kuzov-himoyasi",
-    title: "Kuzov himoyasi",
+    title: "Kuzov himoyasi (Zirh plyonka)",
     uzName: "Kuzov Himoya Plyonkasi",
-    description: "Ultra-durable Paint Protection Film (PPF / Armor) protecting against stone chips, scratches, and harsh environmental effects.",
+    description: "Kuzovni toshlar, tirnalishlar va tashqi muhit salbiy ta'siridan asrovchi o'ta bardoshli, o'z-o'zini tiklovchi premium PPF polimer zirhli plyonkasi.",
     iconName: "ShieldCheck",
     image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=1200&auto=format&fit=crop"
   },
   {
     id: "salon-detailing",
-    title: "Salon detailing",
+    title: "Salon deteylingi",
     uzName: "Salon Deteylingi",
-    description: "Sleek restoration of interior panels, dynamic ambient light installations, and protective coatings for leather and gloss plastics.",
+    description: "Salon plastiklari, ekranlari va porloq qismlarini himoyalash, premium interyer Ambient Light chiroqlarini o'rnatish hamda teri detallarni parvarishlash.",
     iconName: "Layers",
     image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1200&auto=format&fit=crop"
   },
   {
     id: "motor-cleaning",
-    title: "Motor cleaning",
+    title: "Dvigatelni tozalash",
     uzName: "Dvigatelni Tozalash",
-    description: "Professional engine bay detailing with dielectric gels and steam, followed by hydrophobic plastic and rubber preservation.",
+    description: "Dvigatel bo'lmasini maxsus dielektrik gellar va bug' yordamida 100% xavfsiz tozalash hamda gidrofob himoya vositalari bilan konservatsiya qilish.",
     iconName: "Cpu",
     image: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?q=80&w=1200&auto=format&fit=crop"
   },
   {
     id: "anti-chrome",
-    title: "Anti chrome",
+    title: "Anti-xrom",
     uzName: "Anti-Xrom",
-    description: "Transformation of glossy chrome exterior parts to modern high-gloss black or satin finishes using premium cast vinyl.",
+    description: "Tashqi yaltiroq xrom detallarni premium porloq qora (gloss black) vinil plyonkalar bilan qoplash orqali zamonaviy sport uslubiga keltirish.",
     iconName: "Sliders",
     image: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=1200&auto=format&fit=crop"
   }
@@ -95,7 +95,7 @@ export const VEHICLES: Vehicle[] = [
     id: "gentra",
     name: "Chevrolet Gentra",
     category: "sedan",
-    image: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=600&auto=format&fit=crop", // placeholder car
+    image: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=600&auto=format&fit=crop",
     basePrices: {
       "polishing-ceramic": 1800000,
       "ximchiska": 800000,
@@ -243,65 +243,65 @@ export const ANATOMY_PARTS: AnatomyPart[] = [
     name: "Doors",
     uzName: "Eshiklar",
     price: 1500000,
-    description: "3-layer vibration damping + sound absorption inside door cards. Vastly improves acoustic insulation and stereo bass quality."
+    description: "Eshik kartalarining ichki qismida 3 qavatli shovqin va vibratsiya yutuvchi ComfortMat materiallarini o'rnatish. Akustika tizimining ovoz sifatini va baslarni sezilarli darajada yaxshilaydi."
   },
   {
     id: "roof",
     name: "Roof",
     uzName: "Tom",
     price: 600000,
-    description: "Premium sound insulation installation. Heavy reduce of rain drum sound and excellent heat preservation."
+    description: "Avtomobil tom qismini shovqindan to'liq izolyatsiya qilish. Yomg'ir shovqini va yo'l shovqinlarini kamaytiradi, qishda issiq va yozda salqin haroratni saqlashga yordam beradi."
   },
   {
     id: "trunk",
     name: "Trunk",
     uzName: "Bagaj",
     price: 1000000,
-    description: "Sound absorption of wheel wells and flat surfaces inside the trunk. Minimizes exhaust resonance and back tire rumblings."
+    description: "Bagaj qismi va g'ildirak arkalarining ichki yuzalarini shovqin yutuvchi qatlam bilan qoplash. Glushitel rezonsansi va orqa g'ildirak shovqinlarini maksimal darajada kamaytiradi."
   },
   {
     id: "hood",
     name: "Hood",
     uzName: "Kapot",
     price: 500000,
-    description: "Thermo-acoustic lining under the hood. Shields exterior noise and shields paintwork from extreme engine heat."
+    description: "Kapot ostiga maxsus termo-akustik qoplama o'rnatish. Dvigatel shovqinining tashqariga chiqishini kamaytiradi va kapot bo'yog'ini dvigatelning kuchli issiqligidan himoya qiladi."
   },
   {
     id: "floor",
     name: "Floor",
     uzName: "Pol",
     price: 2000000,
-    description: "Comprehensive 4mm high-density vibration dampening across the cabin floor. Dampens road gravel strikes and exhaust hums."
+    description: "Salon pol qismiga 4 mm qalinlikdagi yuqori zichlikli ComfortMat tebranish amortizatorlarini to'liq o'rnatish. Yo'l shovqini, shag'al urilishi va g'ildirak vibratsiyasini yo'qotadi."
   },
   {
     id: "arches",
     name: "Wheel Arches",
-    uzName: "Gildirak Arkalari",
+    uzName: "G'ildirak Arkalari",
     price: 800000,
-    description: "External multi-layer wheel arch isolation. Highly shields tire tread noise and gravel strikes at source."
+    description: "G'ildirak arkalarining tashqi qismiga ko'p qavatli shovqin to'sig'ini o'rnatish. Shinalar protektori shovqini va yo'l toshlarining urilish tovushini manbaida bloklaydi."
   }
 ];
 
 export const FAQS = [
   {
-    q: "How long does a full premium ceramic coating service take?",
-    a: "Usually, a complete multi-step paint correction and dual-layer ceramic application takes 24 to 48 hours depending on the paint condition. This allows proper curing in our specialized cleanroom."
+    q: "Keramika qoplash xizmati qancha vaqt oladi?",
+    a: "Kuzovni tayyorlash, abraziv polirovka qilish va 2 qavatli premium keramika qoplash xizmati avtomobilning bo'yoq holatiga qarab 24 dan 48 soatgacha vaqt oladi. Bu vaqt keramika qatlamining maxsus yopiq xonada to'liq quritilishi uchun zarur."
   },
   {
-    q: "What materials do you use for Shumka (Soundproofing)?",
-    a: "We use ultra-premium ComfortMat and STP multi-layer sound deadening materials, including specialized vibration dampers, sound absorbers, and thermo-acoustic layers."
+    q: "Shumka (Shovqin izolyatsiyasi) uchun qanday materiallardan foydalanasiz?",
+    a: "Biz faqat yuqori sifatli ComfortMat va STP premium ko'p qavatli shovqin va vibratsiya yutuvchi materiallaridan foydalanamiz. Bunga tebranishga qarshi mastikalar, tovush yutuvchi gubkalar va termo-akustik qatlamlar kiradi."
   },
   {
-    q: "Can I customize which parts to insulate in the Shumka service?",
-    a: "Yes! Using our interactive car anatomy customizer, you can select specific zones (like just the Doors, or just the Floor + Arches) and see the exact pricing breakdown before booking."
+    q: "Shovqin izolyatsiyasida qaysi qismlarni qilishni o'zim tanlasam bo'ladimi?",
+    a: "Albatta! Saytdagi interaktiv chizma orqali siz faqat o'zingizga kerakli qismlarni (masalan, faqat eshiklar yoki pol va g'ildirak arkalari) belgilab, buyurtma qilishingiz va narxini hisoblashingiz mumkin."
   },
   {
-    q: "Is there any warranty on your Paint Protection Film (Kuzov Himoyasi)?",
-    a: "We offer a 5-year to 7-year warranty depending on the chosen PPF film. Our premium films are self-healing (scratches disappear under sun/heat) and don't yellow over time."
+    q: "Kuzov himoya plyonkasi (PPF zirh) uchun kafolat bormi?",
+    a: "Biz taklif qiladigan premium PPF zirhli plyonkalarimiz uchun 5 yildan 10 yilgacha rasmiy kafolat beramiz. Ushbu plyonkalar o'z-o'zini tiklash (chiziqlar quyosh issig'ida yo'qolishi) xususiyatiga ega va sarg'ayib ketmaydi."
   },
   {
-    q: "How do I book a detailing slot?",
-    a: "You can book directly using our website configurator and clicking 'Book via Telegram' or 'Book via WhatsApp'. We will receive your custom configuration and schedule a convenient time!"
+    q: "Buyurtma berish qanday amalga oshiriladi?",
+    a: "Siz o'zingiz xohlagan xizmat va avtomobil modelingizni tanlab, paketni sozlaganingizdan so'ng, ismingiz va telefon raqamingizni kiritib 'Telegram orqali buyurtma berish' tugmasini bosasiz. Biz sizga bog'lanib, qulay vaqtni belgilaymiz."
   }
 ];
 
@@ -310,28 +310,28 @@ export const REVIEWS = [
     name: "Shaxzod Alimov",
     car: "Chevrolet Malibu 2",
     rating: 5,
-    comment: "Excellent Shumka service! The doors sound heavy and premium now. Road noise has dropped by at least 60-70%. Highly recommend!",
-    date: "12 May, 2026"
+    comment: "Shumka xizmati shunchaki dahshat! Eshiklar endi og'ir va premium yopilyapti. Yo'l shovqini kamida 60-70% ga kamaydi. Hamma detailing ishqibozlariga tavsiya qilaman!",
+    date: "12-may, 2026-yil"
   },
   {
     name: "Dmitriy K.",
     car: "BMW X5 M-Sport",
     rating: 5,
-    comment: "Amazing ceramic coating. The mirror shine on my black X5 is incredible. Dirt just slides off when washing. Professional crew!",
-    date: "08 May, 2026"
+    comment: "Keramika qoplamasi ajoyib chiqdi. Qora rangli X5 avtomobilimning ko'zgudek jilosi lol qoldiradi. Yuvganda ham loy va kir o'zi sirg'alib tushib ketyapti. Professional jamoa!",
+    date: "08-may, 2026-yil"
   },
   {
     name: "Jasur Raximov",
     car: "Chevrolet Gentra",
     rating: 5,
-    comment: "Done full interior detailing (Ximchiska) and standard soundproofing. Feels like a new premium car inside. Exceptional attention to detail.",
-    date: "28 April, 2026"
+    comment: "To'liq kimyoviy tozalash (Ximchiska) va standart shovqin izolyatsiyasini qildirdim. Mashina ichi yangi chiqqan premium mashinadek hidlanyapti va juda tinch. Ishlariga juda e'tiborli ekan.",
+    date: "28-aprel, 2026-yil"
   },
   {
     name: "Nilufar B.",
     car: "Chevrolet Tracker",
     rating: 5,
-    comment: "Got standard window tinting and anti-chrome detailing. The styling looks stealth and sleek. The glass keeps out the Uzb summer heat wonderfully!",
-    date: "15 April, 2026"
+    comment: "Oynalarni tonirovka qildirdim va anti-xrom xizmatidan foydalandim. Tashqi ko'rinishi juda sportcha va chiroyli chiqdi. Quyosh issig'ini ham o'tkazmayapti, yozda juda asqatadi!",
+    date: "15-aprel, 2026-yil"
   }
 ];
