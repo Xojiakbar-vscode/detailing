@@ -251,7 +251,9 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
   return (
     <div className="relative min-h-screen pt-32 pb-24 px-6 bg-[#050505] text-gray-100">
       {/* Background radial glows */}
-      <div className="absolute top-1/4 left-1/3 w-[600px] h-[300px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-1/4 left-1/3 w-[600px] h-[300px] bg-blue-500/5 rounded-full blur-[150px]" />
+      </div>
 
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Navigation / Breadcrumb */}

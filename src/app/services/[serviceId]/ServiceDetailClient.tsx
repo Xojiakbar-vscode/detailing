@@ -79,7 +79,9 @@ export default function ServiceDetailClient({ service }: ClientProps) {
   return (
     <div className="relative min-h-screen pt-32 pb-24 px-4 sm:px-6">
       {/* Glow background effects */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-blue-600/5 rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-blue-600/5 rounded-full blur-[180px]" />
+      </div>
 
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Back Button & Intro Title */}
@@ -138,7 +140,7 @@ export default function ServiceDetailClient({ service }: ClientProps) {
           </div>
 
           {/* Filter Categories Tabs */}
-          <div className="flex items-center space-x-1.5 overflow-x-auto w-full md:w-auto no-scrollbar py-1">
+          <div className="flex items-center space-x-1.5 overflow-x-auto w-full max-w-full md:w-auto no-scrollbar py-1">
             {categoriesList.map((cat) => (
               <button
                 key={cat.value}

@@ -193,7 +193,9 @@ export default function HomePage() {
       {/* 2. SERVICES SECTION */}
       <section id="services" className="relative py-24 sm:py-32 px-4 sm:px-6 bg-[#050505] z-10">
         {/* Glow accent */}
-        <div className="absolute top-1/3 left-1/4 w-[600px] h-[300px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          <div className="absolute top-1/3 left-1/4 w-[600px] h-[300px] bg-blue-500/5 rounded-full blur-[150px]" />
+        </div>
 
         <div className="max-w-7xl mx-auto">
           {/* Header */}
@@ -388,7 +390,9 @@ export default function HomePage() {
 
       {/* 5. INTERACTIVE LIVE BOOKING CALCULATOR */}
       <section id="prices" className="relative py-24 sm:py-32 px-4 sm:px-6 bg-[#0b0b0d] border-y border-white/5 z-10">
-        <div className="absolute top-1/2 right-1/4 w-[500px] h-[250px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          <div className="absolute top-1/2 right-1/4 w-[500px] h-[250px] bg-blue-500/5 rounded-full blur-[150px]" />
+        </div>
 
         <div className="max-w-7xl mx-auto">
           {/* Header */}

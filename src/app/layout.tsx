@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark overflow-x-hidden max-w-full`}
     >
       <body className="min-h-full flex flex-col bg-[#050505] text-gray-100 overflow-x-hidden relative">
         {/* Universal Ambient Mesh Background */}
@@ -44,7 +44,7 @@ export default function RootLayout({
         <Navbar />
 
         {/* Main Content Area */}
-        <main className="flex-grow z-10">{children}</main>
+        <main className="flex-grow z-10 overflow-x-hidden">{children}</main>
 
         {/* Global Footer */}
         <Footer />
