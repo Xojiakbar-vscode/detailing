@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { 
   Sparkles, 
   Wind, 
@@ -13,16 +13,15 @@ import {
   Cpu, 
   Sliders, 
   ArrowRight, 
-  ChevronDown, 
-  Star, 
-  Send, 
+  ChevronRight, 
   Phone, 
-  Calculator,
-  ChevronRight
+  MapPin, 
+  Compass, 
+  Clock, 
+  PhoneCall
 } from "lucide-react";
-import { SERVICES, VEHICLES, FAQS, REVIEWS } from "@/data";
+import { SERVICES } from "@/data";
 
-// Map service icon name strings to Lucide components
 const IconMap: { [key: string]: any } = {
   Sparkles,
   Wind,
@@ -34,90 +33,71 @@ const IconMap: { [key: string]: any } = {
   Sliders
 };
 
+interface Branch {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+  phoneRaw: string;
+  hours: string;
+  coordinates: { lat: number; lng: number };
+  embedUrl: string;
+}
+
+const BRANCHES: Branch[] = [
+  {
+    id: "axsikent-3",
+    name: "Elegant Auto studio 3-filiali",
+    address: "1-axsikent dasaf sivetafori ro'parasida",
+    phone: "+998 (90) 123-45-67",
+    phoneRaw: "+998901234567",
+    hours: "09:00 - 20:00 (Dushanba - Shanba)",
+    coordinates: { lat: 41.2779, lng: 69.2052 },
+    embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000.0828956976694!2d69.2025!3d41.2779!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8a1575c32ab9%3A0x6e9f45f65342a!2sBunyodkor%20Avenue%2C%20Tashkent!5e0!3m2!1sen!2sub!4v1700000000000"
+  },
+  {
+    id: "axsikent-4",
+    name: "Elegant Auto studio 4-filiali",
+    address: "1-axsikent dasaf sivetafori ro'parasida",
+    phone: "+998 (95) 987-65-43",
+    phoneRaw: "+998959876543",
+    hours: "09:00 - 20:00 (Dushanba - Shanba)",
+    coordinates: { lat: 41.3541, lng: 69.2886 },
+    embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2995.123456789012!2d69.2886!3d41.3541!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b543210fedb%3A0x123456789abcdef!2sAmir%20Temur%20Avenue%2C%20Tashkent!5e0!3m2!1sen!2sub!4v1700000000000"
+  },
+  {
+    id: "oromgoh-5",
+    name: "Elegant Auto studio 5-filiali",
+    address: "Oromgoh kalsavoyga yetmasdan axsikent hoteli orqasida",
+    phone: "+998 (99) 555-55-55",
+    phoneRaw: "+998995555555",
+    hours: "09:00 - 20:00 (Dushanba - Shanba)",
+    coordinates: { lat: 41.2227, lng: 69.2144 },
+    embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3002.123456789012!2d69.2144!3d41.2227!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8a87654321ba%3A0xfedcba987654321!2sYangi%20Sergeli%20Street%2C%20Tashkent!5e0!3m2!1sen!2sub!4v1700000000000"
+  },
+  {
+    id: "sergeli-6",
+    name: "Elegant Auto studio 6-filiali",
+    address: "eski sobiq pitlitka parvina oshxonasi yonida moljal: Turon universiteti oldida",
+    phone: "+998 (99) 555-55-55",
+    phoneRaw: "+998995555555",
+    hours: "09:00 - 20:00 (Dushanba - Shanba)",
+    coordinates: { lat: 41.2227, lng: 69.2144 },
+    embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3002.123456789012!2d69.2144!3d41.2227!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8a87654321ba%3A0xfedcba987654321!2sYangi%20Sergeli%20Street%2C%20Tashkent!5e0!3m2!1sen!2sub!4v1700000000000"
+  }
+];
+
 export default function HomePage() {
-  // Before/After Slider state
-  const [sliderPosition, setSliderPosition] = useState(50);
-  const isDragging = useRef(false);
-  const sliderContainerRef = useRef<HTMLDivElement>(null);
-
-  // Accordion active FAQ state
-  const [activeFaq, setActiveFaq] = useState<number | null>(null);
-
-  // Booking Calculator state
-  const [calcService, setCalcService] = useState<string>("shumka");
-  const [calcVehicle, setCalcVehicle] = useState<string>("gentra");
-  const [calcPackage, setCalcPackage] = useState<"standard" | "premium">("standard");
-  const [calcName, setCalcName] = useState("");
-  const [calcPhone, setCalcPhone] = useState("");
-  const [calculatedPrice, setCalculatedPrice] = useState(0);
-
-  // Live calculator price computation
-  useEffect(() => {
-    const vehicleObj = VEHICLES.find((v) => v.id === calcVehicle);
-    if (!vehicleObj) return;
-
-    let base = vehicleObj.basePrices[calcService] || 0;
-
-    // Special packages handling for Shumka or others
-    if (calcService === "shumka") {
-      const factor = vehicleObj.id === "tahoe" || vehicleObj.id === "bmw-x5" ? 1.8 : 
-                     vehicleObj.id === "porsche-911" ? 1.5 : 1.0;
-      if (calcPackage === "standard") {
-        base = Math.round(4000000 * factor);
-      } else {
-        base = Math.round(7000000 * factor);
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      const servicesSection = document.getElementById("services");
+      if (servicesSection) {
+        servicesSection.scrollIntoView({ behavior: "smooth" });
       }
-    } else {
-      if (calcPackage === "premium") {
-        base = Math.round(base * 1.5);
-      }
-    }
+    }, 600);
 
-    setCalculatedPrice(base);
-  }, [calcService, calcVehicle, calcPackage]);
-
-  // Handle Before/After slider dragging
-  const handleSliderMove = (clientX: number) => {
-    if (!sliderContainerRef.current) return;
-    const rect = sliderContainerRef.current.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPosition(percentage);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging.current) return;
-    handleSliderMove(e.touches[0].clientX);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging.current) return;
-    handleSliderMove(e.clientX);
-  };
-
-  // Helper for formatting price in UZS
-  const formatUZS = (price: number) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " UZS";
-  };
-
-  // Telegram direct booking generator
-  const triggerTelegramBooking = (e: React.FormEvent) => {
-    e.preventDefault();
-    const serviceName = SERVICES.find(s => s.id === calcService)?.uzName || calcService;
-    const vehicleName = VEHICLES.find(v => v.id === calcVehicle)?.name || calcVehicle;
-    
-    const message = `✨ APEX Detailing Buyurtmasi ✨\n\n` +
-                    `👤 Mijoz: ${calcName || "Ko'rsatilmagan"}\n` +
-                    `📞 Telefon: ${calcPhone || "Ko'rsatilmagan"}\n` +
-                    `🛠️ Xizmat turi: ${serviceName}\n` +
-                    `🚗 Avtomobil: ${vehicleName}\n` +
-                    `📦 Paket turi: ${calcPackage === "standard" ? "STANDARD" : "PREMIUM"}\n` +
-                    `💰 Jami hisoblangan narx: ${formatUZS(calculatedPrice)}\n\n` +
-                    `Mening buyurtmamni tasdiqlang va detailing uchun vaqt belgilang! Rahmat.`;
-    
-    const encodedText = encodeURIComponent(message);
-    window.open(`https://t.me/apex_detailing_demo?text=${encodedText}`, "_blank");
-  };
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="relative min-h-screen">
@@ -130,9 +110,9 @@ export default function HomePage() {
             backgroundImage: "url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=2000&auto=format&fit=crop')",
           }}
         >
-          {/* Deep dark gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/60 to-transparent" />
-          <div className="absolute inset-0 bg-[#050505]/40" />
+          {/* Deep dark gradient overlay transitioning to white */}
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-black/30" />
         </div>
 
         {/* Hero Content */}
@@ -143,55 +123,39 @@ export default function HomePage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="space-y-6"
           >
-            <span className="inline-block bg-white/5 backdrop-blur-md text-xs font-semibold tracking-[0.2em] uppercase text-[#00c2ff] px-4 py-2 rounded-full border border-white/10">
+            <span className="inline-block bg-white/10 backdrop-blur-md text-xs font-semibold tracking-[0.2em] uppercase text-white px-4 py-2 rounded-full border border-white/20">
               Avtoparvarish bo'yicha oltin standart
             </span>
 
             <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tight text-white leading-none">
               Professional Deteyling <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-[#00c2ff]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-[#00c2ff]">
                 Xizmatlari
               </span>
             </h1>
 
-            <p className="text-sm sm:text-xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
-              Avtomobilingiz uchun premium darajadagi parvarish. Ko'zgudek yorqin jilo, ilg'or himoya va haydash davomida mislsiz qulaylikni his eting.
+            <p className="text-sm sm:text-xl text-gray-200 max-w-2xl mx-auto font-light leading-relaxed">
+              Avtomobilingiz uchun premium darajadagi parvarish. Ko'zgudek yorqin jilo, ilg'or himoya va shovqinsiz, tinch haydash davomida mislsiz qulaylikni his eting.
             </p>
 
-            {/* CTA Buttons */}
+            {/* CTA Button */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
               <button
                 onClick={() => {
                   document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-white text-black hover:bg-gray-200 font-semibold px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
+                className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-gradient-to-r from-[#0066cc] to-[#0099ff] hover:from-[#0099ff] hover:to-[#0066cc] text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-[1.02] cursor-pointer shadow-[0_4px_20px_rgba(0,102,204,0.2)]"
               >
                 <span>Xizmatlarni ko'rish</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
-              
-              <button
-                onClick={() => {
-                  document.getElementById("calculator")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-[#121214]/80 backdrop-blur-md hover:bg-[#1a1a1e]/90 text-white font-semibold px-8 py-4 rounded-full border border-white/10 hover:border-[#00c2ff]/30 transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
-              >
-                <Calculator className="w-4 h-4 text-[#00c2ff]" />
-                <span>Narxni hisoblash</span>
-              </button>
             </div>
           </motion.div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-1 opacity-70 z-10 animate-bounce">
-          <span className="text-[10px] uppercase tracking-widest text-gray-400">Pastga aylantirish</span>
-          <ChevronDown className="w-4 h-4 text-[#00c2ff]" />
         </div>
       </section>
 
       {/* 2. SERVICES SECTION */}
-      <section id="services" className="relative py-24 sm:py-32 px-4 sm:px-6 bg-[#050505] z-10">
+      <section id="services" className="relative py-24 sm:py-32 px-4 sm:px-6 bg-background z-10 border-t border-gray-100">
         {/* Glow accent */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
           <div className="absolute top-1/3 left-1/4 w-[600px] h-[300px] bg-blue-500/5 rounded-full blur-[150px]" />
@@ -200,13 +164,13 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center space-y-4 mb-16 sm:mb-20">
-            <h2 className="text-xs font-semibold tracking-[0.25em] uppercase text-[#00c2ff]">
+            <h2 className="text-xs font-semibold tracking-[0.25em] uppercase text-[#0066cc]">
               Esklyuziv Xizmatlar
             </h2>
-            <p className="text-2xl sm:text-5xl font-bold tracking-tight text-white">
+            <p className="text-2xl sm:text-5xl font-bold tracking-tight text-gray-900">
               Bizning Professional Xizmatlarimiz
             </p>
-            <div className="w-12 h-1 bg-gradient-to-r from-[#0070f3] to-[#00c2ff] mx-auto rounded-full" />
+            <div className="w-12 h-1 bg-gradient-to-r from-[#0066cc] to-[#0099ff] mx-auto rounded-full" />
           </div>
 
           {/* Cards Grid: 2 columns on mobile, 4 columns on large screens */}
@@ -218,48 +182,48 @@ export default function HomePage() {
                 <Link
                   key={service.id}
                   href={`/services/${service.id}`}
-                  className="group relative flex flex-col justify-between h-[250px] sm:h-[360px] rounded-2xl sm:rounded-3xl overflow-hidden glass-panel glass-panel-hover"
+                  className="group relative flex flex-col justify-between h-auto rounded-2xl sm:rounded-3xl overflow-hidden glass-panel glass-panel-hover pb-1"
                 >
                   {/* Card Background image with overlay */}
                   <div className="absolute inset-0 z-0">
                     <img
                       src={service.image}
                       alt={service.uzName}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-20 group-hover:opacity-30"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-5 group-hover:opacity-10"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d11] via-[#0d0d11]/85 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent" />
                   </div>
 
                   {/* Top content */}
                   <div className="relative z-10 p-3 sm:p-8 space-y-2 sm:space-y-4">
                     <div className="flex items-center justify-between">
-                      <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#00c2ff] group-hover:bg-[#00c2ff] group-hover:text-black transition-all duration-300">
+                      <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gray-100/85 border border-gray-200/40 flex items-center justify-center text-[#0066cc] group-hover:bg-[#0066cc] group-hover:text-white transition-all duration-300">
                         <ServiceIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                       </div>
-                      <span className="text-[8px] sm:text-[10px] uppercase font-bold tracking-widest text-gray-500">
+                      <span className="text-[8px] sm:text-[10px] uppercase font-bold tracking-widest text-gray-400">
                         0{idx + 1}
                       </span>
                     </div>
 
-                    <h3 className="text-xs sm:text-xl font-bold text-white group-hover:text-[#00c2ff] transition-colors line-clamp-2">
+                    <h3 className="text-xs sm:text-xl font-bold text-gray-900 group-hover:text-[#0066cc] transition-colors line-clamp-2">
                       {service.title}
                     </h3>
                     
-                    <p className="text-[9px] sm:text-xs text-gray-400 leading-relaxed font-light line-clamp-3 sm:line-clamp-4">
+                    <p className="text-[9px] sm:text-xs text-gray-600 leading-relaxed font-light line-clamp-3 sm:line-clamp-4">
                       {service.description}
                     </p>
                   </div>
 
                   {/* Bottom Action */}
-                  <div className="relative z-10 p-3 sm:p-8 pt-0 flex items-center justify-between text-[8px] sm:text-xs text-gray-400 group-hover:text-white transition-colors">
+                  <div className="relative z-10 p-3 sm:p-8 pt-0 mt-6 sm:mt-10 flex items-center justify-between text-[8px] sm:text-xs text-gray-500 group-hover:text-[#0066cc] transition-colors">
                     <span className="font-semibold tracking-wider uppercase text-[8px] sm:text-[10px]">Paketni sozlash</span>
-                    <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-300 shrink-0 ml-1">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-100/80 border border-gray-200/50 flex items-center justify-center group-hover:bg-[#0066cc] group-hover:text-white transition-all duration-300 shrink-0 ml-1">
                       <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-0.5" />
                     </div>
                   </div>
 
                   {/* Premium glowing hover border */}
-                  <div className="absolute inset-0 border border-transparent rounded-2xl sm:rounded-3xl group-hover:border-[#00c2ff]/30 pointer-events-none transition-all duration-500" />
+                  <div className="absolute inset-0 border border-transparent rounded-2xl sm:rounded-3xl group-hover:border-[#0066cc]/20 pointer-events-none transition-all duration-500" />
                 </Link>
               );
             })}
@@ -267,406 +231,117 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. BEFORE / AFTER INTERACTIVE SLIDER */}
-      <section id="gallery" className="relative py-24 sm:py-32 px-4 sm:px-6 bg-[#0b0b0d] border-y border-white/5 z-10">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center space-y-4 mb-16 sm:mb-20">
-            <h2 className="text-xs font-semibold tracking-[0.25em] uppercase text-[#00c2ff]">
-              Ko'rgazmali Sifat
-            </h2>
-            <p className="text-2xl sm:text-5xl font-bold tracking-tight text-white">
-              Munosib Va Benuqson Natija
-            </p>
-            <p className="text-xs sm:text-sm text-gray-400 font-light max-w-xl mx-auto">
-              Slayderni surish orqali professional polirovka natijasini taqqoslang. Chap tomonda deteylinggacha bo'lgan holat, o'ng tomonda esa APEX professional ishlovidan keyingi holat.
-            </p>
-          </div>
-
-          {/* Draggable Slider Container */}
-          <div 
-            ref={sliderContainerRef}
-            className="relative max-w-4xl mx-auto aspect-[16/9] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.8)] border border-white/10 cursor-ew-resize select-none"
-            onMouseMove={handleMouseMove}
-            onTouchMove={handleTouchMove}
-            onMouseDown={() => { isDragging.current = true; }}
-            onTouchStart={() => { isDragging.current = true; }}
-            onMouseUp={() => { isDragging.current = false; }}
-            onMouseLeave={() => { isDragging.current = false; }}
-            onTouchEnd={() => { isDragging.current = false; }}
-          >
-            {/* Before (Background) - Swirled Red/Black Sports Car */}
-            <div className="absolute inset-0">
-              <img 
-                src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=1600&auto=format&fit=crop"
-                alt="Polirovkagacha bo'lgan holat" 
-                className="w-full h-full object-cover filter grayscale sepia-30 contrast-90 brightness-75"
-              />
-              <div className="absolute top-3 sm:top-6 left-3 sm:left-6 bg-red-600/70 backdrop-blur-md text-white text-[8px] sm:text-xs font-bold uppercase tracking-wider px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-red-500/20">
-                AVVAL (Xiralashgan kuzov)
-              </div>
-            </div>
-
-            {/* After (Foreground, Clipped) - Shiny sports car */}
-            <div 
-              className="absolute inset-0 overflow-hidden pointer-events-none"
-              style={{ clipPath: `polygon(${sliderPosition}% 0, 100% 0, 100% 100%, ${sliderPosition}% 100%)` }}
-            >
-              <img 
-                src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=1600&auto=format&fit=crop"
-                alt="Polirovkadan keyingi jilo" 
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute top-3 sm:top-6 right-3 sm:right-6 bg-[#0070f3]/80 backdrop-blur-md text-white text-[8px] sm:text-xs font-bold uppercase tracking-wider px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-[#00c2ff]/30">
-                KEYIN (APEX KERAMIKA)
-              </div>
-            </div>
-
-            {/* Draggable Divider Bar */}
-            <div 
-              className="absolute top-0 bottom-0 w-1 bg-white backdrop-blur-sm shadow-[0_0_10px_rgba(0,194,255,0.8)] pointer-events-none"
-              style={{ left: `${sliderPosition}%` }}
-            >
-              {/* Handle circle */}
-              <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-black/90 border border-white/20 shadow-[0_0_15px_rgba(0,194,255,0.4)] flex items-center justify-center text-white">
-                <div className="flex space-x-0.5 sm:space-x-1">
-                  <span className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-white opacity-40 animate-pulse" />
-                  <span className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-[#00c2ff]" />
-                  <span className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-white opacity-40 animate-pulse" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. CUSTOMER REVIEWS */}
-      <section className="relative py-24 sm:py-32 px-4 sm:px-6 bg-[#050505] z-10">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center space-y-4 mb-16 sm:mb-20">
-            <h2 className="text-xs font-semibold tracking-[0.25em] uppercase text-[#00c2ff]">
-              Mijozlar Fikrlar
-            </h2>
-            <p className="text-2xl sm:text-5xl font-bold tracking-tight text-white">
-              Mijozlarimiz Biz Haqimizda
-            </p>
-            <div className="w-12 h-1 bg-gradient-to-r from-[#0070f3] to-[#00c2ff] mx-auto rounded-full" />
-          </div>
-
-          {/* Reviews Grid: 2 columns on mobile, 4 on desktop */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8">
-            {REVIEWS.map((review, idx) => (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                key={review.name}
-                className="glass-panel p-4 sm:p-8 rounded-2xl sm:rounded-3xl flex flex-col justify-between"
-              >
-                <div className="space-y-3 sm:space-y-4">
-                  {/* Stars */}
-                  <div className="flex text-amber-400 space-x-0.5 sm:space-x-1">
-                    {[...Array(review.rating)].map((_, i) => (
-                      <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-[10px] sm:text-sm text-gray-300 leading-relaxed font-light italic">
-                    "{review.comment}"
-                  </p>
-                </div>
-
-                <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-white/5 flex flex-col">
-                  <span className="text-[11px] sm:text-sm font-semibold text-white">{review.name}</span>
-                  <span className="text-[9px] sm:text-xs text-[#00c2ff]">{review.car}</span>
-                  <span className="text-[8px] sm:text-[10px] text-gray-500 mt-1">{review.date}</span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. INTERACTIVE LIVE BOOKING CALCULATOR */}
-      <section id="prices" className="relative py-24 sm:py-32 px-4 sm:px-6 bg-[#0b0b0d] border-y border-white/5 z-10">
+      {/* 3. BRANCH LOCATIONS (FILIALLAR) SECTION */}
+      <section id="locations" className="relative py-24 sm:py-32 px-4 sm:px-6 bg-gray-50/50 border-t border-gray-100 z-10">
+        {/* Glow accent */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          <div className="absolute top-1/2 right-1/4 w-[500px] h-[250px] bg-blue-500/5 rounded-full blur-[150px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[300px] bg-cyan-500/5 rounded-full blur-[150px]" />
         </div>
 
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center space-y-4 mb-16 sm:mb-20">
-            <h2 className="text-xs font-semibold tracking-[0.25em] uppercase text-[#00c2ff]">
-              Jonli Hisob-Kitob
+            <h2 className="text-xs font-semibold tracking-[0.25em] uppercase text-[#0066cc]">
+              Biz sizga yaqinmiz
             </h2>
-            <p id="calculator" className="text-2xl sm:text-5xl font-bold tracking-tight text-white">
-              Kalkulyator Va Narxlar
+            <p className="text-3xl sm:text-5xl font-bold tracking-tight text-gray-900">
+              Namangan bo'ylab {BRANCHES.length} ta Filialimiz
             </p>
-            <p className="text-xs sm:text-sm text-gray-400 font-light max-w-xl mx-auto">
-              Avtomobil modelingizni va kerakli detailing xizmatini tanlang. UZS valyutasida aniq narxni hisoblang va bir zumda Telegram orqali joy band qiling.
+            <div className="w-12 h-1 bg-gradient-to-r from-[#0066cc] to-[#0099ff] mx-auto rounded-full" />
+            <p className="text-xs sm:text-sm text-gray-600 font-light max-w-xl mx-auto mt-4">
+              Markazlarimiz zamonaviy jihozlar, professional usta jamoasi hamda to'liq sifat nazorati bilan xizmatingizga tayyor. O'zingizga qulay filialni tanlang.
             </p>
           </div>
 
-          {/* Calculator Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-start max-w-5xl mx-auto">
-            {/* Input Config Form */}
-            <div className="lg:col-span-7 glass-panel p-5 sm:p-10 rounded-3xl space-y-6 sm:space-y-8">
-              <h3 className="text-lg sm:text-xl font-bold text-white border-b border-white/5 pb-4 flex items-center space-x-2">
-                <Calculator className="w-5 h-5 text-[#00c2ff]" />
-                <span>Kalkulyatorda xizmatni sozlash</span>
-              </h3>
-
-              <div className="space-y-6">
-                {/* 1. Service Selection */}
-                <div className="space-y-3">
-                  <label className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-gray-400">
-                    1. Xizmat turini tanlang
-                  </label>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    {SERVICES.map((s) => (
-                      <button
-                        key={s.id}
-                        type="button"
-                        onClick={() => setCalcService(s.id)}
-                        className={`text-[10px] sm:text-xs text-left px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border transition-all duration-200 cursor-pointer ${
-                          calcService === s.id
-                            ? "bg-white/10 text-white border-[#00c2ff] shadow-[0_0_12px_rgba(0,194,255,0.2)]"
-                            : "bg-white/5 text-gray-400 border-white/5 hover:border-white/15"
-                        }`}
-                      >
-                        {s.title}
-                      </button>
-                    ))}
+          {/* Locations Cards Container */}
+          <div className="flex flex-col gap-8 lg:flex-row lg:overflow-x-auto lg:pb-6 lg:snap-x lg:snap-mandatory scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+            {BRANCHES.map((branch) => (
+              <div 
+                key={branch.id}
+                className="relative flex flex-col justify-between rounded-3xl glass-panel border border-gray-200/50 p-6 hover:border-[#0066cc]/30 transition-all duration-500 w-full lg:w-[380px] lg:shrink-0 lg:snap-start"
+              >
+                <div className="space-y-6">
+                  {/* Branch Title & details */}
+                  <div className="space-y-3">
+                    <h3 className="text-xl font-bold text-gray-900 flex items-center space-x-2">
+                      <Compass className="w-5 h-5 text-[#0066cc]" />
+                      <span>{branch.name}</span>
+                    </h3>
+                    
+                    <div className="space-y-2.5 text-xs text-gray-600 font-light">
+                      <div className="flex items-start space-x-2">
+                        <MapPin className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
+                        <span>{branch.address}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Clock className="w-4 h-4 text-gray-400 shrink-0" />
+                        <span>{branch.hours}</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
 
-                {/* 2. Vehicle Selection */}
-                <div className="space-y-3">
-                  <label className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-gray-400">
-                    2. Avtomobil modelini tanlang
-                  </label>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    {VEHICLES.map((v) => (
-                      <button
-                        key={v.id}
-                        type="button"
-                        onClick={() => setCalcVehicle(v.id)}
-                        className={`text-[10px] sm:text-xs text-left px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border transition-all duration-200 cursor-pointer ${
-                          calcVehicle === v.id
-                            ? "bg-white/10 text-white border-[#00c2ff] shadow-[0_0_12px_rgba(0,194,255,0.2)]"
-                            : "bg-white/5 text-gray-400 border-white/5 hover:border-white/15"
-                        }`}
-                      >
-                        {v.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 3. Package Tier Selection */}
-                <div className="space-y-3">
-                  <label className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-gray-400">
-                    3. Detailing paketi darajasi
-                  </label>
-                  <div className="grid grid-cols-2 gap-4">
-                    <button
-                      type="button"
-                      onClick={() => setCalcPackage("standard")}
-                      className={`flex flex-col text-left p-3 sm:p-4 rounded-xl border transition-all duration-200 cursor-pointer ${
-                        calcPackage === "standard"
-                          ? "bg-[#0070f3]/10 text-white border-[#0070f3] shadow-[0_0_15px_rgba(0,112,243,0.3)]"
-                          : "bg-white/5 text-gray-400 border-white/5 hover:border-white/15"
-                      }`}
-                    >
-                      <span className="text-xs sm:text-sm font-bold text-white">Standard Paket</span>
-                      <span className="text-[8px] sm:text-[10px] text-gray-500 mt-1 leading-normal">Zaruriy himoya va professional qoplama</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setCalcPackage("premium")}
-                      className={`flex flex-col text-left p-3 sm:p-4 rounded-xl border transition-all duration-200 cursor-pointer ${
-                        calcPackage === "premium"
-                          ? "bg-[#00c2ff]/10 text-white border-[#00c2ff] shadow-[0_0_15px_rgba(0,194,255,0.3)]"
-                          : "bg-white/5 text-gray-400 border-white/5 hover:border-white/15"
-                      }`}
-                    >
-                      <span className="text-xs sm:text-sm font-bold text-[#00c2ff]">Premium Paket</span>
-                      <span className="text-[8px] sm:text-[10px] text-gray-500 mt-1 leading-normal">Maksimal himoya, to'liq ishlov + kafolat</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Order Summary & Booking Intake */}
-            <div className="lg:col-span-5 glass-panel p-5 sm:p-10 rounded-3xl border border-[#00c2ff]/15 relative">
-              {/* Outer active glow highlight */}
-              <div className="absolute inset-0 rounded-3xl border border-[#00c2ff]/20 animate-glow-pulse pointer-events-none" />
-
-              <h3 className="text-lg sm:text-xl font-bold text-white mb-6">
-                <span>Hisoblangan Narx</span>
-              </h3>
-
-              <div className="space-y-6">
-                <div className="bg-black/40 p-4 sm:p-6 rounded-2xl border border-white/5 space-y-4">
-                  <div className="flex justify-between text-xs sm:text-sm">
-                    <span className="text-gray-400">Xizmat turi:</span>
-                    <span className="text-white font-medium">
-                      {SERVICES.find(s => s.id === calcService)?.uzName}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-xs sm:text-sm">
-                    <span className="text-gray-400">Avtomobil:</span>
-                    <span className="text-white font-medium">
-                      {VEHICLES.find(v => v.id === calcVehicle)?.name}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-xs sm:text-sm">
-                    <span className="text-gray-400">Paket:</span>
-                    <span className="text-[#00c2ff] font-bold uppercase text-xs">
-                      {calcPackage}
-                    </span>
-                  </div>
-                  <div className="border-t border-white/5 pt-4 flex justify-between items-baseline">
-                    <span className="text-gray-400 text-[10px] sm:text-xs uppercase font-bold">Jami:</span>
-                    <span className="text-xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-[#00c2ff] tracking-tight">
-                      {formatUZS(calculatedPrice)}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Intake Form */}
-                <form onSubmit={triggerTelegramBooking} className="space-y-4">
-                  <div className="space-y-1.5">
-                    <label htmlFor="user-name" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Sizning Ismingiz</label>
-                    <input
-                      id="user-name"
-                      type="text"
-                      required
-                      value={calcName}
-                      onChange={(e) => setCalcName(e.target.value)}
-                      placeholder="Shaxzod Alimov"
-                      className="w-full bg-white/5 border border-white/5 focus:border-[#00c2ff] text-white px-4 py-3 rounded-xl text-sm focus:outline-none transition-colors"
+                  {/* Embedded Google Map Frame */}
+                  <div className="w-full h-48 rounded-2xl overflow-hidden border border-gray-250/50 relative group shadow-inner">
+                    <iframe
+                      src={branch.embedUrl}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0, filter: "grayscale(0.4) contrast(1.1)" }}
+                      allowFullScreen={false}
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title={`${branch.name} Xaritasi`}
                     />
                   </div>
 
-                  <div className="space-y-1.5">
-                    <label htmlFor="user-phone" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Telefon raqamingiz</label>
-                    <div className="relative">
-                      <Phone className="absolute left-4 top-3.5 w-4 h-4 text-gray-600" />
-                      <input
-                        id="user-phone"
-                        type="tel"
-                        required
-                        value={calcPhone}
-                        onChange={(e) => setCalcPhone(e.target.value)}
-                        placeholder="+998 (90) 123-45-67"
-                        className="w-full bg-white/5 border border-white/5 focus:border-[#00c2ff] text-white pl-12 pr-4 py-3 rounded-xl text-sm focus:outline-none transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-[#0070f3] to-[#00c2ff] hover:from-[#00c2ff] hover:to-[#0070f3] text-white font-bold py-4 rounded-xl shadow-[0_4px_20px_rgba(0,112,243,0.3)] transition-all duration-300 transform hover:scale-[1.01] cursor-pointer"
+                  {/* Phone Call Link */}
+                  <a
+                    href={`tel:${branch.phoneRaw}`}
+                    className="flex items-center space-x-3 bg-gray-50 border border-gray-100 hover:border-gray-200 hover:bg-gray-100 px-4 py-3 rounded-2xl text-xs text-gray-700 justify-center font-bold transition-all transition-colors"
                   >
-                    <Send className="w-4 h-4" />
-                    <span>Tasdiqlash va Telegram orqali yozilish</span>
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. FAQ ACCORDION SECTION */}
-      <section id="faq" className="relative py-24 sm:py-32 px-4 sm:px-6 bg-[#050505] z-10">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="text-center space-y-4 mb-16 sm:mb-20">
-            <h2 className="text-xs font-semibold tracking-[0.25em] uppercase text-[#00c2ff]">
-              Ma'lumotlar
-            </h2>
-            <p className="text-2xl sm:text-5xl font-bold tracking-tight text-white">
-              Ko'p Beriladigan Savollar
-            </p>
-            <div className="w-12 h-1 bg-gradient-to-r from-[#0070f3] to-[#00c2ff] mx-auto rounded-full" />
-          </div>
-
-          {/* Accordion List */}
-          <div className="space-y-4">
-            {FAQS.map((faq, idx) => {
-              const isOpen = activeFaq === idx;
-
-              return (
-                <div 
-                  key={idx}
-                  className="rounded-2xl glass-panel overflow-hidden transition-all duration-300"
-                >
-                  <button
-                    type="button"
-                    onClick={() => setActiveFaq(isOpen ? null : idx)}
-                    className="w-full text-left p-5 sm:p-8 flex items-center justify-between hover:bg-white/5 transition-colors focus:outline-none cursor-pointer"
-                  >
-                    <span className="font-bold text-white text-sm sm:text-lg pr-4">{faq.q}</span>
-                    <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full border border-white/10 flex items-center justify-center text-[#00c2ff] transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180 bg-[#00c2ff] text-black" : ""}`}>
-                      <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    </div>
-                  </button>
-
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                      >
-                        <div className="p-5 sm:p-8 pt-0 border-t border-white/5 text-gray-400 text-xs sm:text-sm leading-relaxed font-light">
-                          {faq.a}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                    <PhoneCall className="w-4 h-4 text-[#0066cc] animate-bounce" />
+                    <span>{branch.phone}</span>
+                  </a>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
 
-      {/* 7. CONTACT & INTAKE WRAPPER */}
-      <section id="contact" className="relative py-24 sm:py-32 px-4 sm:px-6 bg-[#0b0b0d] border-t border-white/5 z-10 text-center">
-        <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-blue-500/5 to-transparent pointer-events-none" />
+                {/* Maps Direct Shortcuts */}
+                <div className="mt-8 pt-6 border-t border-gray-150 space-y-3.5">
+                  <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Manzilga navigatsiya qilish:</p>
+                  
+                  <div className="grid grid-cols-3 gap-2">
+                    {/* Google Maps */}
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${branch.coordinates.lat},${branch.coordinates.lng}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center space-x-1.5 bg-white border border-gray-200/80 hover:border-[#0066cc]/30 hover:bg-[#0066cc]/5 py-2.5 rounded-xl text-[10px] font-bold text-gray-600 hover:text-[#0066cc] transition-colors"
+                    >
+                      <span>Google</span>
+                    </a>
 
-        <div className="max-w-xl mx-auto space-y-8">
-          <span className="w-16 h-16 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto text-[#00c2ff] shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-            <Send className="w-6 h-6 animate-pulse" />
-          </span>
-          <h2 className="text-2xl sm:text-5xl font-bold tracking-tight text-white">Kuzovga Oyna Kabi Jilo Berishga Tayyormisiz?</h2>
-          <p className="text-gray-400 font-light text-xs sm:text-base leading-relaxed">
-            Bugunoq avtomobilingiz uchun premium deteyling xizmatlarini bron qiling. Bizning ustalarimiz bilan bevosita bog'laning, bepul professional maslahat oling yoki Telegram orqali yoziling.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <a
-              href="https://t.me/apex_detailing_demo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-gradient-to-r from-[#0070f3] to-[#00c2ff] text-white font-bold px-8 py-4 rounded-full shadow-[0_0_20px_rgba(0,112,243,0.3)] transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
-            >
-              <Send className="w-4 h-4" />
-              <span>Telegram orqali yozilish</span>
-            </a>
-            <a
-              href="tel:+998901234567"
-              className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-white/5 hover:bg-white/10 text-white font-bold px-8 py-4 rounded-full border border-white/10 transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
-            >
-              <Phone className="w-4 h-4 text-[#00c2ff]" />
-              <span>Telefon: +998 (90) 123-45-67</span>
-            </a>
+                    {/* Yandex Maps */}
+                    <a
+                      href={`https://yandex.com/maps/?text=${branch.coordinates.lat},${branch.coordinates.lng}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center space-x-1.5 bg-white border border-gray-200/80 hover:border-[#0066cc]/30 hover:bg-[#0066cc]/5 py-2.5 rounded-xl text-[10px] font-bold text-gray-600 hover:text-[#0066cc] transition-colors"
+                    >
+                      <span>Yandex</span>
+                    </a>
+
+                    {/* Apple Maps */}
+                    <a
+                      href={`https://maps.apple.com/?q=${encodeURIComponent(branch.name)}&ll=${branch.coordinates.lat},${branch.coordinates.lng}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center space-x-1.5 bg-white border border-gray-200/80 hover:border-[#0066cc]/30 hover:bg-[#0066cc]/5 py-2.5 rounded-xl text-[10px] font-bold text-gray-600 hover:text-[#0066cc] transition-colors"
+                    >
+                      <span>Apple</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

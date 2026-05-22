@@ -15,11 +15,11 @@ export default function Footer() {
         <div className="space-y-6">
           <Link href="/" className="inline-block">
             <span className="text-xl font-bold tracking-widest text-white">
-              APEX<span className="text-[#00c2ff]">DETAILING</span>
+              Elegant Auto studio<span className="text-[#00c2ff]">DETAILING</span>
             </span>
           </Link>
           <p className="text-sm text-gray-400 leading-relaxed">
-            Murosasiz professional avtoparvarish. Toshkentda polirovka, keramika, shovqin izolyatsiyasi va premium deteyling bo'yicha oltin standart.
+            Murosasiz professional avtoparvarish. Namanganda polirovka, keramika, shovqin izolyatsiyasi va premium deteyling bo'yicha oltin standart.
           </p>
           <div className="flex items-center space-x-3 text-xs text-[#00c2ff]">
             <ShieldCheck className="w-4 h-4" />
@@ -81,7 +81,7 @@ export default function Footer() {
           <ul className="space-y-4 text-sm text-gray-400">
             <li className="flex items-start space-x-3">
               <MapPin className="w-4 h-4 text-[#00c2ff] shrink-0 mt-0.5" />
-              <span>Toshkent sh., Chilonzor tumani, Bunyodkor shoh ko'chasi</span>
+              <span>Namangan sh., Chilonzor tumani, Bunyodkor shoh ko'chasi</span>
             </li>
             <li className="flex items-start space-x-3">
               <Phone className="w-4 h-4 text-[#00c2ff] shrink-0 mt-0.5" />
@@ -91,8 +91,8 @@ export default function Footer() {
             </li>
             <li className="flex items-start space-x-3">
               <Send className="w-4 h-4 text-[#00c2ff] shrink-0 mt-0.5" />
-              <a href="https://t.me/apex_detailing_demo" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-                @apex_detailing_demo
+              <a href="https://t.me/elegant_auto_admin" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                @elegant_auto_admin (Telegram orqali yozish)
               </a>
             </li>
           </ul>
@@ -100,7 +100,7 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500">
-        <p>© {currentYear} APEX DETAILING. Barcha huquqlar himoyalangan.</p>
+        <p>© {currentYear} Elegant Auto Studio. Barcha huquqlar himoyalangan.</p>
         <div className="flex space-x-6 mt-4 sm:mt-0">
           <Link href="/privacy" className="hover:text-white transition-colors">
             Maxfiylik siyosati

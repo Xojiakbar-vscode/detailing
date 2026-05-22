@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #050505;
-  --foreground: #f3f4f6;
-  --card-bg: rgba(18, 18, 20, 0.7);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --accent-blue: #0070f3;
-  --accent-glow: #00c2ff;
+  --background: #ffffff;
+  --foreground: #09090b;
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --card-border: rgba(9, 9, 11, 0.08);
+  --accent-blue: #0066cc;
+  --accent-glow: #0099ff;
 }
 
 @theme inline {
@@ -25,10 +25,10 @@
 
 @keyframes glow-pulse {
   from {
-    box-shadow: 0 0 4px rgba(0, 194, 255, 0.2), 0 0 12px rgba(0, 112, 243, 0.2);
+    box-shadow: 0 0 4px rgba(0, 102, 204, 0.1), 0 0 12px rgba(0, 153, 255, 0.1);
   }
   to {
-    box-shadow: 0 0 12px rgba(0, 194, 255, 0.6), 0 0 24px rgba(0, 112, 243, 0.4);
+    box-shadow: 0 0 12px rgba(0, 102, 204, 0.3), 0 0 24px rgba(0, 153, 255, 0.2);
   }
 }
 
@@ -45,10 +45,10 @@ body {
 
 /* Glassmorphism utility classes */
 .glass-panel {
-  background: rgba(18, 18, 20, 0.65);
+  background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(9, 9, 11, 0.06);
 }
 
 .glass-panel-hover {
@@ -56,9 +56,9 @@ body {
 }
 
 .glass-panel-hover:hover {
-  background: rgba(26, 26, 30, 0.85);
-  border-color: rgba(0, 194, 255, 0.25);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 112, 243, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 102, 204, 0.25);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05), 0 0 20px rgba(0, 153, 255, 0.05);
 }
 
 /* Custom glowing mesh backgrounds */
@@ -71,9 +71,9 @@ body {
   z-index: 0;
   pointer-events: none;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(0, 112, 243, 0.07) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(0, 194, 255, 0.05) 0px, transparent 50%),
-    radial-gradient(at 50% 30%, rgba(59, 130, 246, 0.06) 0px, transparent 60%);
+    radial-gradient(at 0% 0%, rgba(0, 102, 204, 0.04) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(0, 153, 255, 0.02) 0px, transparent 50%),
+    radial-gradient(at 50% 30%, rgba(59, 130, 246, 0.03) 0px, transparent 60%);
   background-attachment: fixed;
 }
 
@@ -84,13 +84,13 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #050505;
+  background: #ffffff;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1f1f23;
+  background: #e4e4e7;
   border-radius: 9999px;
-  border: 2px solid #050505;
+  border: 2px solid #ffffff;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -99,13 +99,13 @@ body {
 
 /* Premium text gradient */
 .text-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #a3a3a3 100%);
+  background: linear-gradient(135deg, #09090b 0%, #71717a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-blue {
-  background: linear-gradient(135deg, #ffffff 0%, #60a5fa 50%, #0070f3 100%);
+  background: linear-gradient(135deg, #09090b 0%, #3b82f6 50%, #0066cc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -114,3 +114,4 @@ body {
 .premium-transition {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+

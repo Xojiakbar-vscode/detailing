@@ -21,6 +21,7 @@ export interface AnatomyPart {
   uzName: string;
   price: number;
   description: string;
+  image: string; // Realistic soundproofing process photo
 }
 
 export const SERVICES: Service[] = [
@@ -243,95 +244,50 @@ export const ANATOMY_PARTS: AnatomyPart[] = [
     name: "Doors",
     uzName: "Eshiklar",
     price: 1500000,
-    description: "Eshik kartalarining ichki qismida 3 qavatli shovqin va vibratsiya yutuvchi ComfortMat materiallarini o'rnatish. Akustika tizimining ovoz sifatini va baslarni sezilarli darajada yaxshilaydi."
+    description: "Eshik kartalarining ichki qismida 3 qavatli shovqin va vibratsiya yutuvchi ComfortMat materiallarini o'rnatish. Akustika tizimining ovoz sifatini va baslarni sezilarli darajada yaxshilaydi.",
+    image: "https://images.unsplash.com/photo-1517524206127-48bbd363f3d7?q=80&w=800&auto=format&fit=crop"
   },
   {
     id: "roof",
     name: "Roof",
     uzName: "Tom",
     price: 600000,
-    description: "Avtomobil tom qismini shovqindan to'liq izolyatsiya qilish. Yomg'ir shovqini va yo'l shovqinlarini kamaytiradi, qishda issiq va yozda salqin haroratni saqlashga yordam beradi."
+    description: "Avtomobil tom qismini shovqindan to'liq izolyatsiya qilish. Yomg'ir shovqini va yo'l shovqinlarini kamaytiradi, qishda issiq va yozda salqin haroratni saqlashga yordam beradi.",
+    image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=800&auto=format&fit=crop"
   },
   {
     id: "trunk",
     name: "Trunk",
     uzName: "Bagaj",
     price: 1000000,
-    description: "Bagaj qismi va g'ildirak arkalarining ichki yuzalarini shovqin yutuvchi qatlam bilan qoplash. Glushitel rezonsansi va orqa g'ildirak shovqinlarini maksimal darajada kamaytiradi."
+    description: "Bagaj qismi va g'ildirak arkalarining ichki yuzalarini shovqin yutuvchi qatlam bilan qoplash. Glushitel rezonsansi va orqa g'ildirak shovqinlarini maksimal darajada kamaytiradi.",
+    image: "https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=800&auto=format&fit=crop"
   },
   {
     id: "hood",
     name: "Hood",
     uzName: "Kapot",
     price: 500000,
-    description: "Kapot ostiga maxsus termo-akustik qoplama o'rnatish. Dvigatel shovqinining tashqariga chiqishini kamaytiradi va kapot bo'yog'ini dvigatelning kuchli issiqligidan himoya qiladi."
+    description: "Kapot ostiga maxsus termo-akustik qoplama o'rnatish. Dvigatel shovqinining tashqariga chiqishini kamaytiradi va kapot bo'yog'ini dvigatelning kuchli issiqligidan himoya qiladi.",
+    image: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?q=80&w=800&auto=format&fit=crop"
   },
   {
     id: "floor",
     name: "Floor",
     uzName: "Pol",
     price: 2000000,
-    description: "Salon pol qismiga 4 mm qalinlikdagi yuqori zichlikli ComfortMat tebranish amortizatorlarini to'liq o'rnatish. Yo'l shovqini, shag'al urilishi va g'ildirak vibratsiyasini yo'qotadi."
+    description: "Salon pol qismiga 4 mm qalinlikdagi yuqori zichlikli ComfortMat tebranish amortizatorlarini to'liq o'rnatish. Yo'l shovqini, shag'al urilishi va g'ildirak vibratsiyasini yo'qotadi.",
+    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=800&auto=format&fit=crop"
   },
   {
     id: "arches",
     name: "Wheel Arches",
     uzName: "G'ildirak Arkalari",
     price: 800000,
-    description: "G'ildirak arkalarining tashqi qismiga ko'p qavatli shovqin to'sig'ini o'rnatish. Shinalar protektori shovqini va yo'l toshlarining urilish tovushini manbaida bloklaydi."
+    description: "G'ildirak arkalarining tashqi qismiga ko'p qavatli shovqin to'sig'ini o'rnatish. Shinalar protektori shovqini va yo'l toshlarining urilish tovushini manbaida bloklaydi.",
+    image: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?q=80&w=800&auto=format&fit=crop"
   }
 ];
 
-export const FAQS = [
-  {
-    q: "Keramika qoplash xizmati qancha vaqt oladi?",
-    a: "Kuzovni tayyorlash, abraziv polirovka qilish va 2 qavatli premium keramika qoplash xizmati avtomobilning bo'yoq holatiga qarab 24 dan 48 soatgacha vaqt oladi. Bu vaqt keramika qatlamining maxsus yopiq xonada to'liq quritilishi uchun zarur."
-  },
-  {
-    q: "Shumka (Shovqin izolyatsiyasi) uchun qanday materiallardan foydalanasiz?",
-    a: "Biz faqat yuqori sifatli ComfortMat va STP premium ko'p qavatli shovqin va vibratsiya yutuvchi materiallaridan foydalanamiz. Bunga tebranishga qarshi mastikalar, tovush yutuvchi gubkalar va termo-akustik qatlamlar kiradi."
-  },
-  {
-    q: "Shovqin izolyatsiyasida qaysi qismlarni qilishni o'zim tanlasam bo'ladimi?",
-    a: "Albatta! Saytdagi interaktiv chizma orqali siz faqat o'zingizga kerakli qismlarni (masalan, faqat eshiklar yoki pol va g'ildirak arkalari) belgilab, buyurtma qilishingiz va narxini hisoblashingiz mumkin."
-  },
-  {
-    q: "Kuzov himoya plyonkasi (PPF zirh) uchun kafolat bormi?",
-    a: "Biz taklif qiladigan premium PPF zirhli plyonkalarimiz uchun 5 yildan 10 yilgacha rasmiy kafolat beramiz. Ushbu plyonkalar o'z-o'zini tiklash (chiziqlar quyosh issig'ida yo'qolishi) xususiyatiga ega va sarg'ayib ketmaydi."
-  },
-  {
-    q: "Buyurtma berish qanday amalga oshiriladi?",
-    a: "Siz o'zingiz xohlagan xizmat va avtomobil modelingizni tanlab, paketni sozlaganingizdan so'ng, ismingiz va telefon raqamingizni kiritib 'Telegram orqali buyurtma berish' tugmasini bosasiz. Biz sizga bog'lanib, qulay vaqtni belgilaymiz."
-  }
-];
-
-export const REVIEWS = [
-  {
-    name: "Shaxzod Alimov",
-    car: "Chevrolet Malibu 2",
-    rating: 5,
-    comment: "Shumka xizmati shunchaki dahshat! Eshiklar endi og'ir va premium yopilyapti. Yo'l shovqini kamida 60-70% ga kamaydi. Hamma detailing ishqibozlariga tavsiya qilaman!",
-    date: "12-may, 2026-yil"
-  },
-  {
-    name: "Dmitriy K.",
-    car: "BMW X5 M-Sport",
-    rating: 5,
-    comment: "Keramika qoplamasi ajoyib chiqdi. Qora rangli X5 avtomobilimning ko'zgudek jilosi lol qoldiradi. Yuvganda ham loy va kir o'zi sirg'alib tushib ketyapti. Professional jamoa!",
-    date: "08-may, 2026-yil"
-  },
-  {
-    name: "Jasur Raximov",
-    car: "Chevrolet Gentra",
-    rating: 5,
-    comment: "To'liq kimyoviy tozalash (Ximchiska) va standart shovqin izolyatsiyasini qildirdim. Mashina ichi yangi chiqqan premium mashinadek hidlanyapti va juda tinch. Ishlariga juda e'tiborli ekan.",
-    date: "28-aprel, 2026-yil"
-  },
-  {
-    name: "Nilufar B.",
-    car: "Chevrolet Tracker",
-    rating: 5,
-    comment: "Oynalarni tonirovka qildirdim va anti-xrom xizmatidan foydalandim. Tashqi ko'rinishi juda sportcha va chiroyli chiqdi. Quyosh issig'ini ham o'tkazmayapti, yozda juda asqatadi!",
-    date: "15-aprel, 2026-yil"
-  }
-];
+export const FAQS = [];
+export const REVIEWS = [];

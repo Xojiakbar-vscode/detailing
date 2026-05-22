@@ -21,15 +21,16 @@ const getServiceBullets = (serviceId: string, tier: "standard" | "premium") => {
   if (serviceId === "shumka") {
     return tier === "standard" 
       ? [
-          "Eshiklar (3 qavatli shovqin izolyatsiyasi)",
-          "Salon poli (Vibratsiyani kamaytirish va shovqin to'sig'i)",
-          "Bagaj qismi va g'ildirak arkalari izolyatsiyasi"
+          "To'liq salon (Eshiklar, pol, bagaj, tom, kapot, arkalar)",
+          "ComfortMat Standard vibro-damping va shovqin yutuvchi materiallari",
+          "3 qavatli izolyatsiya texnologiyasi",
+          "Og'irlik va samaradorlikning optimal balansi"
         ]
       : [
-          "Eshiklar, pol va bagaj to'liq izolyatsiyasi",
-          "Tom qismi maxsus yengil ovoz yutuvchi qoplama",
-          "Kapot qismi issiqlik va shovqin qalqoni",
-          "G'ildirak arkalari tashqi shovqin blokirovkasi"
+          "To'liq salon (Eshiklar, pol, bagaj, tom, kapot, arkalar)",
+          "ComfortMat Premium ko'p qavatli yengil materiallar (Extreme/Viper)",
+          "4 qavatgacha kengaytirilgan professional izolyatsiya",
+          "Maksimal shovqin va issiqlik himoyasi (95% gacha samaradorlik)"
         ];
   }
   
@@ -173,24 +174,26 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
   const vehicleFactor = vehicle.id === "tahoe" || vehicle.id === "bmw-x5" ? 1.8 : 
                         vehicle.id === "porsche-911" ? 1.5 : 1.0;
 
-  // Base Package prices
-  const standardBase = isShumka ? Math.round(4000000 * vehicleFactor) : Math.round((vehicle.basePrices[service.id] || 0));
-  const premiumBase = isShumka ? Math.round(7000000 * vehicleFactor) : Math.round((vehicle.basePrices[service.id] || 0) * 1.5);
+  // Material factor: 1.7 multiplier for premium ComfortMat Extreme/Viper series
+  const materialFactor = isShumka && selectedTier === "premium" ? 1.7 : 1.0;
 
-  // Set default active parts based on tier
+  // Base Package prices (Sum of all parts * vehicleFactor * materialFactor)
+  const totalAnatomyBase = ANATOMY_PARTS.reduce((acc, part) => acc + part.price, 0);
+  const standardBase = isShumka 
+    ? Math.round(totalAnatomyBase * vehicleFactor) 
+    : Math.round((vehicle.basePrices[service.id] || 0));
+  const premiumBase = isShumka 
+    ? Math.round(totalAnatomyBase * vehicleFactor * 1.7) 
+    : Math.round((vehicle.basePrices[service.id] || 0) * 1.5);
+
+  // Set default active parts (Standard and Premium both include all parts by default)
   useEffect(() => {
     if (!isShumka) {
       setSelectedParts([]);
       return;
     }
-    if (selectedTier === "standard") {
-      // Standard includes: Doors, Floor, Trunk
-      setSelectedParts(["doors", "floor", "trunk"]);
-    } else {
-      // Premium includes: Doors, Floor, Trunk, Roof, Hood, Arches
-      setSelectedParts(["doors", "floor", "trunk", "roof", "hood", "arches"]);
-    }
-  }, [selectedTier, isShumka]);
+    setSelectedParts(["doors", "floor", "trunk", "roof", "hood", "arches"]);
+  }, [isShumka]);
 
   // Handle manual part toggling from anatomy customizer
   const togglePart = (partId: string) => {
@@ -204,11 +207,11 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
   // Calculate live running total
   const getRunningTotal = () => {
     if (isShumka) {
-      // Shumka price is the sum of selected custom parts * vehicle factor
+      // Shumka price is the sum of selected custom parts * vehicle factor * material factor
       let sum = 0;
       ANATOMY_PARTS.forEach((part) => {
         if (selectedParts.includes(part.id)) {
-          sum += Math.round(part.price * vehicleFactor);
+          sum += Math.round(part.price * vehicleFactor * materialFactor);
         }
       });
       return sum;
@@ -229,10 +232,10 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
     
     const partsList = ANATOMY_PARTS
       .filter((part) => selectedParts.includes(part.id))
-      .map((part) => `• ${part.uzName} (+${formatUZS(Math.round(part.price * vehicleFactor))})`)
+      .map((part) => `• ${part.uzName} (+${formatUZS(Math.round(part.price * vehicleFactor * materialFactor))})`)
       .join("\n");
 
-    const message = `✨ APEX Detailing Buyurtmasi ✨\n\n` +
+    const message = `✨ Elegant Auto Studio Buyurtmasi ✨\n\n` +
                     `👤 Mijoz: ${clientName || "Ko'rsatilmagan"}\n` +
                     `📞 Telefon: ${clientPhone || "Ko'rsatilmagan"}\n` +
                     `🛠️ Xizmat turi: ${service.uzName}\n` +
@@ -243,13 +246,13 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
                     `Mening buyurtmamni tasdiqlang va detailing uchun vaqt belgilang! Rahmat.`;
 
     const encoded = encodeURIComponent(message);
-    window.open(`https://t.me/apex_detailing_demo?text=${encoded}`, "_blank");
+    window.open(`https://t.me/elegant_auto_admin?text=${encoded}`, "_blank");
   };
 
   const activePart = ANATOMY_PARTS.find(p => p.id === activePartId);
 
   return (
-    <div className="relative min-h-screen pt-32 pb-24 px-6 bg-[#050505] text-gray-100">
+    <div className="relative min-h-screen pt-32 pb-24 px-6 text-gray-900">
       {/* Background radial glows */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute top-1/4 left-1/3 w-[600px] h-[300px] bg-blue-500/5 rounded-full blur-[150px]" />
@@ -260,16 +263,16 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
         <div className="space-y-4">
           <Link
             href={`/services/${service.id}`}
-            className="inline-flex items-center space-x-2 text-xs font-semibold uppercase tracking-wider text-[#00c2ff] hover:text-white transition-colors duration-200"
+            className="inline-flex items-center space-x-2 text-xs font-semibold uppercase tracking-wider text-[#0066cc] hover:text-[#0099ff] transition-colors duration-200"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>📂 {service.uzName} bo'limiga qaytish</span>
           </Link>
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-            <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
+            <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-gray-900">
               {vehicle.name}
             </h1>
-            <span className="text-xl sm:text-2xl text-gray-500 font-light">
+            <span className="text-xl sm:text-2xl text-gray-400 font-light">
               / {service.uzName} konstruktori
             </span>
           </div>
@@ -279,278 +282,255 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Left / Center Work Area: Packages & Anatomy */}
           <div className="lg:col-span-8 space-y-12">
-            {/* Packages Grid */}
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-xs uppercase font-bold tracking-widest text-[#00c2ff]">
-                  {isShumka ? "1-bosqich: Asosiy paketni tanlang" : "Asosiy xizmat paketini tanlang"}
-                </h2>
-                {!isShumka && (
-                  <p className="text-xs text-gray-500 mt-1">
-                    Ushbu xizmat avtomobilingiz uchun to'liq (kompleks) holda amalga oshiriladi.
+            {!isShumka ? (
+              /* Beautiful Details Card for Non-Shumka Services */
+              <div className="glass-panel p-6 sm:p-10 rounded-3xl border border-gray-200/50 space-y-8 relative overflow-hidden shadow-sm">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+                
+                {/* Cover Image */}
+                <div className="w-full h-56 sm:h-80 rounded-2xl overflow-hidden border border-gray-200/50 relative">
+                  <img
+                    src={service.image}
+                    alt={service.uzName}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-transparent" />
+                </div>
+
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#0066cc]">Kiritilgan xizmatlar to'plami</span>
+                    <h3 className="text-xl sm:text-3xl font-extrabold text-gray-900">{service.uzName}</h3>
+                  </div>
+
+                  <p className="text-xs sm:text-base text-gray-600 font-light leading-relaxed">
+                    {service.description}
                   </p>
-                )}
-              </div>
-              
-              <div className="grid grid-cols-2 gap-3 sm:gap-6">
-                {/* Standard Package Card */}
-                <div
-                  onClick={() => setSelectedTier("standard")}
-                  className={`relative flex flex-col justify-between p-4 sm:p-8 rounded-2xl sm:rounded-3xl cursor-pointer glass-panel transition-all duration-300 ${
-                    selectedTier === "standard"
-                      ? "border-[#0070f3]/50 bg-[#0070f3]/5 shadow-[0_0_20px_rgba(0,112,243,0.2)]"
-                      : "hover:border-white/10"
-                  }`}
-                >
-                  {selectedTier === "standard" && (
-                    <div className="absolute top-3 right-3 bg-[#0070f3] text-white text-[7px] sm:text-[9px] font-bold tracking-widest uppercase px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-md">
-                      Faol
-                    </div>
-                  )}
 
-                  <div className="space-y-4 sm:space-y-6">
-                    <div>
-                      <h3 className="text-sm sm:text-lg font-bold text-white">Standard Paket</h3>
-                      <p className="text-[10px] sm:text-xs text-gray-500 mt-0.5 sm:mt-1">Sifatli va zaruriy elementlar</p>
-                    </div>
-
-                    <div className="text-base sm:text-3xl font-black text-[#00c2ff]">
-                      {formatUZS(standardBase)}
-                    </div>
-
-                    <ul className="space-y-2 sm:space-y-3.5 border-t border-white/5 pt-3 sm:pt-6 text-[10px] sm:text-sm text-gray-400">
+                  <div className="border-t border-gray-100 pt-6 space-y-4">
+                    <h4 className="text-xs sm:text-sm uppercase font-bold text-gray-900 tracking-wider flex items-center space-x-2">
+                      <Sparkles className="w-4 h-4 text-[#0066cc]" />
+                      <span>Xizmat doirasida amalga oshiriladigan ishlar:</span>
+                    </h4>
+                    
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs sm:text-sm text-gray-600">
                       {getServiceBullets(service.id, "standard").map((bullet, idx) => (
-                        <li key={idx} className="flex items-start space-x-1.5 sm:space-x-2">
-                          <Check className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-500 shrink-0 mt-0.5 sm:mt-0" />
+                        <li key={idx} className="flex items-start space-x-2">
+                          <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                           <span>{bullet}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
-                </div>
 
-                {/* Premium Package Card */}
-                <div
-                  onClick={() => setSelectedTier("premium")}
-                  className={`relative flex flex-col justify-between p-4 sm:p-8 rounded-2xl sm:rounded-3xl cursor-pointer glass-panel transition-all duration-300 relative overflow-hidden ${
-                    selectedTier === "premium"
-                      ? "border-[#00c2ff]/60 bg-[#00c2ff]/5 shadow-[0_0_25px_rgba(0,194,255,0.25)]"
-                      : "hover:border-white/10"
-                  }`}
-                >
-                  {/* Glowing light borders */}
-                  <div className={`absolute inset-0 border border-[#00c2ff]/20 animate-glow-pulse pointer-events-none rounded-2xl sm:rounded-3xl ${selectedTier === "premium" ? "opacity-100" : "opacity-0"}`} />
-
-                  {selectedTier === "premium" && (
-                    <div className="absolute top-3 right-3 bg-gradient-to-r from-[#0070f3] to-[#00c2ff] text-white text-[7px] sm:text-[9px] font-bold tracking-widest uppercase px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-md border border-white/10">
-                      Eng zo'r tanlov
+                  {/* Trust metrics */}
+                  <div className="border-t border-gray-100 pt-6 grid grid-cols-3 gap-4 text-center">
+                    <div className="bg-gray-55 p-4 rounded-xl border border-gray-200/50 shadow-sm bg-gray-50/50">
+                      <span className="block text-gray-900 font-extrabold text-xs sm:text-sm">Premium</span>
+                      <span className="block text-[8px] sm:text-[10px] text-gray-400 uppercase tracking-wider mt-1">Materiallar</span>
                     </div>
-                  )}
-
-                  <div className="space-y-4 sm:space-y-6">
-                    <div>
-                      <h3 className="text-sm sm:text-lg font-bold text-white">Premium Paket</h3>
-                      <p className="text-[10px] sm:text-xs text-gray-500 mt-0.5 sm:mt-1">To'liq va maksimal darajada</p>
+                    <div className="bg-gray-55 p-4 rounded-xl border border-gray-200/50 shadow-sm bg-gray-50/50">
+                      <span className="block text-[#0066cc] font-extrabold text-xs sm:text-sm">100%</span>
+                      <span className="block text-[8px] sm:text-[10px] text-gray-400 uppercase tracking-wider mt-1">Kafolat</span>
                     </div>
-
-                    <div className="text-base sm:text-3xl font-black text-[#00c2ff]">
-                      {formatUZS(premiumBase)}
+                    <div className="bg-gray-55 p-4 rounded-xl border border-gray-200/50 shadow-sm bg-gray-50/50">
+                      <span className="block text-gray-900 font-extrabold text-xs sm:text-sm">Tezkor</span>
+                      <span className="block text-[8px] sm:text-[10px] text-gray-400 uppercase tracking-wider mt-1">Va xavfsiz</span>
                     </div>
-
-                    <ul className="space-y-2 sm:space-y-3.5 border-t border-white/5 pt-3 sm:pt-6 text-[10px] sm:text-sm text-gray-400">
-                      {getServiceBullets(service.id, "premium").map((bullet, idx) => (
-                        <li key={idx} className="flex items-start space-x-1.5 sm:space-x-2">
-                          <Check className={`w-3 h-3 sm:w-4 sm:h-4 shrink-0 mt-0.5 sm:mt-0 ${service.id === "shumka" ? "text-[#a855f7]" : "text-[#00c2ff]"}`} />
-                          <span className="text-white font-medium">{bullet}</span>
-                        </li>
-                      ))}
-                    </ul>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              /* Packages Grid (only for Shumka) */
+              <div className="space-y-6">
+                <div>
+                  <h2 className="text-xs uppercase font-bold tracking-widest text-[#0066cc]">
+                    1-bosqich: Asosiy paketni tanlang
+                  </h2>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3 sm:gap-6">
+                  {/* Standard Package Card */}
+                  <div
+                    onClick={() => setSelectedTier("standard")}
+                    className={`relative flex flex-col justify-between p-4 sm:p-8 rounded-2xl sm:rounded-3xl cursor-pointer glass-panel shadow-sm transition-all duration-300 ${
+                      selectedTier === "standard"
+                        ? "border-[#0066cc] bg-[#0066cc]/5 shadow-[0_4px_20px_rgba(0,102,204,0.08)]"
+                        : "hover:border-gray-300 border-gray-200/50"
+                    }`}
+                  >
+                    {selectedTier === "standard" && (
+                      <div className="absolute top-3 right-3 bg-[#0066cc] text-white text-[7px] sm:text-[9px] font-bold tracking-widest uppercase px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-sm">
+                        Faol
+                      </div>
+                    )}
+
+                    <div className="space-y-4 sm:space-y-6">
+                      <div>
+                        <h3 className="text-sm sm:text-lg font-bold text-gray-900">Standard Paket</h3>
+                        <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5 sm:mt-1">ComfortMat Standard materiallari</p>
+                      </div>
+
+                      <div className="text-base sm:text-3xl font-black text-[#0066cc]">
+                        {formatUZS(standardBase)}
+                      </div>
+
+                      <ul className="space-y-2 sm:space-y-3.5 border-t border-gray-100 pt-3 sm:pt-6 text-[10px] sm:text-sm text-gray-600">
+                        {getServiceBullets(service.id, "standard").map((bullet, idx) => (
+                          <li key={idx} className="flex items-start space-x-1.5 sm:space-x-2">
+                            <Check className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-600 shrink-0 mt-0.5 sm:mt-0" />
+                            <span>{bullet}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* Premium Package Card */}
+                  <div
+                    onClick={() => setSelectedTier("premium")}
+                    className={`relative flex flex-col justify-between p-4 sm:p-8 rounded-2xl sm:rounded-3xl cursor-pointer glass-panel shadow-sm transition-all duration-300 relative overflow-hidden ${
+                      selectedTier === "premium"
+                        ? "border-[#0066cc] bg-[#0066cc]/5 shadow-[0_4px_25px_rgba(0,102,204,0.12)]"
+                        : "hover:border-gray-300 border-gray-200/50"
+                    }`}
+                  >
+                    {/* Glowing light borders */}
+                    <div className={`absolute inset-0 border border-[#0066cc]/20 animate-glow-pulse pointer-events-none rounded-2xl sm:rounded-3xl ${selectedTier === "premium" ? "opacity-100" : "opacity-0"}`} />
+
+                    {selectedTier === "premium" && (
+                      <div className="absolute top-3 right-3 bg-gradient-to-r from-[#0066cc] to-[#0099ff] text-white text-[7px] sm:text-[9px] font-bold tracking-widest uppercase px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-sm border border-blue-200/20">
+                        Eng zo'r tanlov
+                      </div>
+                    )}
+
+                    <div className="space-y-4 sm:space-y-6">
+                      <div>
+                        <h3 className="text-sm sm:text-lg font-bold text-gray-900">Premium Paket</h3>
+                        <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5 sm:mt-1">ComfortMat Premium materiallari</p>
+                      </div>
+
+                      <div className="text-base sm:text-3xl font-black text-[#0066cc]">
+                        {formatUZS(premiumBase)}
+                      </div>
+
+                      <ul className="space-y-2 sm:space-y-3.5 border-t border-gray-100 pt-3 sm:pt-6 text-[10px] sm:text-sm text-gray-600">
+                        {getServiceBullets(service.id, "premium").map((bullet, idx) => (
+                          <li key={idx} className="flex items-start space-x-1.5 sm:space-x-2">
+                            <Check className={`w-3 h-3 sm:w-4 sm:h-4 shrink-0 mt-0.5 sm:mt-0 text-[#0066cc]`} />
+                            <span className="text-gray-900 font-medium">{bullet}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Interactive Anatomy section */}
             {isShumka && (
               <div className="space-y-6">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200/50 pb-4">
                   <div>
-                    <h2 className="text-xs uppercase font-bold tracking-widest text-[#00c2ff]">
-                      2-bosqich: Interaktiv chizma va qo'shimcha hududlar
+                    <h2 className="text-xs uppercase font-bold tracking-widest text-[#0066cc]">
+                      2-bosqich: Izolyatsiya hududlarini sozlash
                     </h2>
-                    <p className="text-xs text-gray-500 mt-1">
-                      Mashina chizmasidagi hududlarni bosib, xohlagan qismlarni qo'shishingiz yoki olib tashlashingiz mumkin.
+                    <p className="text-xs text-gray-400 mt-1">
+                      Kerakli qismlarni tanlash uchun kartalarni bosing yoki ularning batafsil ma'lumoti bilan tanishing.
                     </p>
                   </div>
                   <div className="flex items-center space-x-4 text-[10px] text-gray-400">
                     <div className="flex items-center space-x-1">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#0070f3]" />
-                      <span>Kiritilgan</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#00c2ff] animate-pulse" />
-                      <span>Qo'shilgan</span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#0066cc]" />
+                      <span>Tanlangan qismlar</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Blueprint Layout Panel */}
-                <div className="glass-panel p-8 rounded-3xl flex flex-col md:flex-row items-center justify-center gap-12 relative overflow-hidden">
-                  <div className="absolute top-4 left-4 flex items-center space-x-2 text-[10px] text-gray-500 font-semibold bg-black/40 border border-white/5 px-3 py-1.5 rounded-full backdrop-blur-md">
-                    <Info className="w-3.5 h-3.5 text-[#00c2ff]" />
-                    <span>CAD chizma: kuzov izolyatsiyasi konfiguratsiyasi</span>
-                  </div>
+                {/* Grid of Anatomy Parts Cards */}
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+                  {ANATOMY_PARTS.map((part) => {
+                    const isSelected = selectedParts.includes(part.id);
+                    const partPrice = Math.round(part.price * vehicleFactor * materialFactor);
 
-                  {/* Left/Right controls (quick buttons if user doesn't want to use SVG) */}
-                  <div className="grid grid-cols-2 gap-3 w-full md:w-56 shrink-0 relative z-10 order-2 md:order-1">
-                    {ANATOMY_PARTS.map((part) => {
-                      const isSelected = selectedParts.includes(part.id);
-                      return (
-                        <button
-                          key={part.id}
-                          onClick={() => {
-                            togglePart(part.id);
-                            setActivePartId(part.id);
-                          }}
-                          className={`text-left p-3 rounded-xl border text-xs flex flex-col justify-between h-20 transition-all duration-200 ${
-                            isSelected
-                              ? "bg-white/10 text-white border-[#00c2ff] shadow-[0_0_8px_rgba(0,194,255,0.15)]"
-                              : "bg-white/5 text-gray-500 border-white/5 hover:border-white/10 hover:text-gray-300"
-                          }`}
-                        >
-                          <span className="font-bold">{part.uzName}</span>
-                          <span className="text-[10px] text-[#00c2ff]">+{formatUZS(Math.round(part.price * vehicleFactor))}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* SVG Blueprint vector */}
-                  <div className="w-64 h-96 relative z-10 order-1 md:order-2">
-                    <svg
-                      viewBox="0 0 400 600"
-                      className="w-full h-full text-gray-800 drop-shadow-[0_0_20px_rgba(0,0,0,0.6)]"
-                    >
-                      {/* Background grid indicators */}
-                      <line x1="50" y1="0" x2="50" y2="600" stroke="rgba(255,255,255,0.02)" strokeWidth="1" />
-                      <line x1="200" y1="0" x2="200" y2="600" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
-                      <line x1="350" y1="0" x2="350" y2="600" stroke="rgba(255,255,255,0.02)" strokeWidth="1" />
-                      <line x1="0" y1="150" x2="400" y2="150" stroke="rgba(255,255,255,0.02)" strokeWidth="1" />
-                      <line x1="0" y1="300" x2="400" y2="300" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
-                      <line x1="0" y1="450" x2="400" y2="450" stroke="rgba(255,255,255,0.02)" strokeWidth="1" />
-
-                      {/* Wheel arch Front Left */}
-                      <g 
-                        onClick={() => { togglePart("arches"); setActivePartId("arches"); }}
-                        className="cursor-pointer"
+                    return (
+                      <div
+                        key={part.id}
+                        onClick={() => togglePart(part.id)}
+                        className={`group relative flex flex-col justify-between h-[235px] sm:h-[310px] rounded-2xl overflow-hidden glass-panel glass-panel-hover shadow-sm transition-all duration-300 border cursor-pointer ${
+                          isSelected
+                            ? "border-[#0066cc] bg-[#0066cc]/5 shadow-[0_4px_20px_rgba(0,102,204,0.08)]"
+                            : "border-gray-200/50 hover:border-gray-300"
+                        }`}
                       >
-                        <rect x="75" y="110" width="30" height="60" rx="4" fill="#0d0d0d" stroke={selectedParts.includes("arches") ? "#00c2ff" : "#262626"} strokeWidth="2" className="transition-all" />
-                        <circle cx="90" cy="140" r="10" fill={selectedParts.includes("arches") ? "rgba(0,194,255,0.1)" : "transparent"} />
-                      </g>
+                        {/* Image banner with selection tick */}
+                        <div className="relative h-28 sm:h-44 w-full overflow-hidden bg-gray-100 shrink-0">
+                          <img
+                            src={part.image}
+                            alt={part.uzName}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
+                          {/* Shadow Gradient overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-                      {/* Wheel arch Front Right */}
-                      <g 
-                        onClick={() => { togglePart("arches"); setActivePartId("arches"); }}
-                        className="cursor-pointer"
-                      >
-                        <rect x="295" y="110" width="30" height="60" rx="4" fill="#0d0d0d" stroke={selectedParts.includes("arches") ? "#00c2ff" : "#262626"} strokeWidth="2" className="transition-all" />
-                        <circle cx="310" cy="140" r="10" fill={selectedParts.includes("arches") ? "rgba(0,194,255,0.1)" : "transparent"} />
-                      </g>
+                          {/* Checkbox Tick Overlap */}
+                          <div
+                            className={`absolute top-2 right-2 w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border transition-all duration-300 ${
+                              isSelected
+                                ? "bg-[#0066cc] border-[#0066cc] text-white shadow-sm"
+                                : "bg-white/70 backdrop-blur-md border-gray-300 text-transparent"
+                            }`}
+                          >
+                            <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[3]" />
+                          </div>
 
-                      {/* Wheel arch Back Left */}
-                      <g 
-                        onClick={() => { togglePart("arches"); setActivePartId("arches"); }}
-                        className="cursor-pointer"
-                      >
-                        <rect x="75" y="430" width="30" height="60" rx="4" fill="#0d0d0d" stroke={selectedParts.includes("arches") ? "#00c2ff" : "#262626"} strokeWidth="2" className="transition-all" />
-                        <circle cx="90" cy="460" r="10" fill={selectedParts.includes("arches") ? "rgba(0,194,255,0.1)" : "transparent"} />
-                      </g>
+                          {/* Info Button trigger inside image */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActivePartId(part.id);
+                            }}
+                            className="absolute bottom-2 left-2 flex items-center space-x-1 bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/10 text-[8px] sm:text-[9px] font-semibold text-white px-2.5 py-1 rounded-full transition-colors cursor-pointer animate-pulse"
+                          >
+                            <Info className="w-3 h-3 text-[#00c2ff]" />
+                            <span>Batafsil</span>
+                          </button>
+                        </div>
 
-                      {/* Wheel arch Back Right */}
-                      <g 
-                        onClick={() => { togglePart("arches"); setActivePartId("arches"); }}
-                        className="cursor-pointer"
-                      >
-                        <rect x="295" y="430" width="30" height="60" rx="4" fill="#0d0d0d" stroke={selectedParts.includes("arches") ? "#00c2ff" : "#262626"} strokeWidth="2" className="transition-all" />
-                        <circle cx="310" cy="460" r="10" fill={selectedParts.includes("arches") ? "rgba(0,194,255,0.1)" : "transparent"} />
-                      </g>
+                        {/* Content block */}
+                        <div className="flex-grow p-3 sm:p-5 flex flex-col justify-between space-y-2">
+                          <div className="space-y-1">
+                            <h3 className="text-xs sm:text-base font-bold text-gray-900 group-hover:text-[#0066cc] transition-colors truncate">
+                              {part.uzName}
+                            </h3>
+                            <p className="text-[9px] sm:text-xs text-gray-500 font-light line-clamp-2 leading-relaxed">
+                              {part.description}
+                            </p>
+                          </div>
 
-                      {/* Main Body Chassis Outer */}
-                      <path
-                        d="M 130 60 Q 200 40 270 60 L 290 150 L 310 180 L 310 420 L 290 450 L 270 540 Q 200 560 130 540 L 110 450 L 90 420 L 90 180 L 110 150 Z"
-                        fill="rgba(255,255,255,0.01)"
-                        stroke="#404040"
-                        strokeWidth="2"
-                      />
-
-                      {/* HOOD zone */}
-                      <path
-                        d="M 135 70 Q 200 55 265 70 L 280 145 L 120 145 Z"
-                        fill={selectedParts.includes("hood") ? "rgba(0,112,243,0.15)" : "transparent"}
-                        stroke={selectedParts.includes("hood") ? "#0070f3" : "#262626"}
-                        strokeWidth="2"
-                        className="cursor-pointer transition-all hover:fill-blue-500/10"
-                        onClick={() => { togglePart("hood"); setActivePartId("hood"); }}
-                      />
-
-                      {/* CABIN FLOOR zone */}
-                      <rect
-                        x="115"
-                        y="160"
-                        width="170"
-                        height="260"
-                        fill={selectedParts.includes("floor") ? "rgba(0,194,255,0.08)" : "transparent"}
-                        stroke={selectedParts.includes("floor") ? "#00c2ff" : "#262626"}
-                        strokeWidth="2"
-                        className="cursor-pointer transition-all hover:fill-cyan-500/10"
-                        onClick={() => { togglePart("floor"); setActivePartId("floor"); }}
-                      />
-
-                      {/* ROOF overlay on top of Floor */}
-                      <rect
-                        x="130"
-                        y="210"
-                        width="140"
-                        height="160"
-                        rx="8"
-                        fill={selectedParts.includes("roof") ? "rgba(168,85,247,0.15)" : "transparent"}
-                        stroke={selectedParts.includes("roof") ? "#a855f7" : "#404040"}
-                        strokeWidth="2"
-                        className="cursor-pointer transition-all hover:fill-purple-500/10"
-                        onClick={() => { togglePart("roof"); setActivePartId("roof"); }}
-                      />
-
-                      {/* DOORS left */}
-                      <path
-                        d="M 90 185 L 110 185 L 110 300 L 90 300 Z M 90 305 L 110 305 L 110 415 L 90 415 Z"
-                        fill={selectedParts.includes("doors") ? "rgba(16,185,129,0.15)" : "transparent"}
-                        stroke={selectedParts.includes("doors") ? "#10b981" : "#262626"}
-                        strokeWidth="2"
-                        className="cursor-pointer transition-all hover:fill-emerald-500/10"
-                        onClick={() => { togglePart("doors"); setActivePartId("doors"); }}
-                      />
-
-                      {/* DOORS right */}
-                      <path
-                        d="M 290 185 L 310 185 L 310 300 L 290 300 Z M 290 305 L 310 305 L 310 415 L 290 415 Z"
-                        fill={selectedParts.includes("doors") ? "rgba(16,185,129,0.15)" : "transparent"}
-                        stroke={selectedParts.includes("doors") ? "#10b981" : "#262626"}
-                        strokeWidth="2"
-                        className="cursor-pointer transition-all hover:fill-emerald-500/10"
-                        onClick={() => { togglePart("doors"); setActivePartId("doors"); }}
-                      />
-
-                      {/* TRUNK zone */}
-                      <path
-                        d="M 125 435 L 275 435 L 265 530 Q 200 545 135 530 Z"
-                        fill={selectedParts.includes("trunk") ? "rgba(239,68,68,0.12)" : "transparent"}
-                        stroke={selectedParts.includes("trunk") ? "#ef4444" : "#262626"}
-                        strokeWidth="2"
-                        className="cursor-pointer transition-all hover:fill-red-500/10"
-                        onClick={() => { togglePart("trunk"); setActivePartId("trunk"); }}
-                      />
-                    </svg>
-                  </div>
+                          <div className="border-t border-gray-100 pt-2.5 flex items-center justify-between">
+                            <div>
+                              <p className="text-[7px] sm:text-[9px] uppercase tracking-wider text-gray-400 font-bold">Narxi</p>
+                              <p className="text-xs sm:text-base font-black text-[#0066cc] mt-0.5 whitespace-nowrap">
+                                +{formatUZS(partPrice)}
+                              </p>
+                            </div>
+                            <div
+                              className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full border flex items-center justify-center transition-all duration-300 ${
+                                isSelected
+                                  ? "bg-[#0066cc] border-[#0066cc] text-white"
+                                  : "bg-gray-100 border-gray-200 text-gray-400 group-hover:text-gray-600"
+                              }`}
+                            >
+                              <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -558,15 +538,15 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
 
           {/* Right Side Sticky Console: Price Breakdown & Intake Form */}
           <div className="lg:col-span-4 lg:sticky lg:top-[96px] space-y-6">
-            <div className="glass-panel p-8 rounded-3xl border border-[#00c2ff]/15 relative">
-              <div className="absolute inset-0 rounded-3xl border border-[#00c2ff]/10 animate-glow-pulse pointer-events-none" />
+            <div className="glass-panel p-8 rounded-3xl border border-gray-200/50 shadow-md relative">
+              <div className="absolute inset-0 rounded-3xl border border-[#0066cc]/10 animate-glow-pulse pointer-events-none" />
 
-              <h3 className="text-xl font-bold text-white mb-6">Buyurtma tafsilotlari</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-6">Buyurtma tafsilotlari</h3>
 
               <div className="space-y-6">
                 {/* Active additions breakdown */}
-                <div className="bg-black/40 p-5 rounded-2xl border border-white/5 space-y-4 text-sm text-gray-400">
-                  <div className="flex justify-between text-xs text-gray-500 uppercase font-semibold">
+                <div className="bg-gray-55 p-5 rounded-2xl border border-gray-200/50 shadow-sm bg-gray-50/50 space-y-4 text-sm text-gray-600">
+                  <div className="flex justify-between text-xs text-gray-400 uppercase font-semibold">
                     <span>Xizmat / Hudud</span>
                     <span>Narxi</span>
                   </div>
@@ -577,23 +557,23 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
                         const isSelected = selectedParts.includes(part.id);
                         if (!isSelected) return null;
                         return (
-                          <div key={part.id} className="flex justify-between items-center text-white">
+                          <div key={part.id} className="flex justify-between items-center text-gray-800">
                             <span>{part.uzName}</span>
-                            <span className="font-semibold text-xs">{formatUZS(Math.round(part.price * vehicleFactor))}</span>
+                            <span className="font-semibold text-xs text-gray-900">{formatUZS(Math.round(part.price * vehicleFactor * materialFactor))}</span>
                           </div>
                         );
                       })
                     ) : (
-                      <div className="flex justify-between items-center text-white">
-                        <span>{selectedTier === "standard" ? "Standard to'liq paket" : "Premium to'liq paket"}</span>
-                        <span className="font-semibold text-xs">{formatUZS(getRunningTotal())}</span>
+                      <div className="flex justify-between items-center text-gray-800">
+                        <span>To'liq xizmat paketi</span>
+                        <span className="font-semibold text-xs text-gray-900">{formatUZS(getRunningTotal())}</span>
                       </div>
                     )}
                   </div>
 
-                  <div className="border-t border-white/5 pt-4 flex justify-between items-baseline">
-                    <span className="text-gray-400 font-bold text-xs uppercase">Jami:</span>
-                    <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-[#00c2ff]">
+                  <div className="border-t border-gray-200/50 pt-4 flex justify-between items-baseline">
+                    <span className="text-gray-500 font-bold text-xs uppercase">Jami:</span>
+                    <span className="text-2xl font-black text-[#0066cc]">
                       {formatUZS(getRunningTotal())}
                     </span>
                   </div>
@@ -602,7 +582,7 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
                 {/* Intake Form */}
                 <form onSubmit={handleTelegramCheckout} className="space-y-4">
                   <div className="space-y-1.5">
-                    <label htmlFor="user-name" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Sizning ismingiz</label>
+                    <label htmlFor="user-name" className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Sizning ismingiz</label>
                     <input
                       id="user-name"
                       type="text"
@@ -610,14 +590,14 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
                       value={clientName}
                       onChange={(e) => setClientName(e.target.value)}
                       placeholder="Toshpo'latov Sanjar"
-                      className="w-full bg-white/5 border border-white/5 focus:border-[#00c2ff] text-white px-4 py-3 rounded-xl text-sm focus:outline-none transition-colors"
+                      className="w-full bg-white border border-gray-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc]/30 text-gray-900 px-4 py-3 rounded-xl text-sm focus:outline-none transition-colors"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label htmlFor="user-phone" className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Telefon raqamingiz</label>
+                    <label htmlFor="user-phone" className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Telefon raqamingiz</label>
                     <div className="relative">
-                      <Phone className="absolute left-4 top-3.5 w-4 h-4 text-gray-600" />
+                      <Phone className="absolute left-4 top-3.5 w-4 h-4 text-gray-400" />
                       <input
                         id="user-phone"
                         type="tel"
@@ -625,14 +605,14 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
                         value={clientPhone}
                         onChange={(e) => setClientPhone(e.target.value)}
                         placeholder="+998 (90) 123-45-67"
-                        className="w-full bg-white/5 border border-white/5 focus:border-[#00c2ff] text-white pl-12 pr-4 py-3 rounded-xl text-sm focus:outline-none transition-colors"
+                        className="w-full bg-white border border-gray-200 focus:border-[#0066cc] focus:ring-1 focus:ring-[#0066cc]/30 text-gray-900 pl-12 pr-4 py-3 rounded-xl text-sm focus:outline-none transition-colors"
                       />
                     </div>
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-[#0070f3] to-[#00c2ff] hover:from-[#00c2ff] hover:to-[#0070f3] text-white font-bold py-4 rounded-xl shadow-[0_4px_20px_rgba(0,112,243,0.3)] transition-all duration-300 transform hover:scale-[1.01]"
+                    className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-[#0066cc] to-[#0099ff] hover:from-[#0099ff] hover:to-[#0066cc] text-white font-bold py-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.01] cursor-pointer"
                   >
                     <Send className="w-4 h-4" />
                     <span>Telegram orqali buyurtma berish</span>
@@ -651,10 +631,10 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
             {/* Backdrop cover */}
             <motion.div
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.6 }}
+              animate={{ opacity: 0.4 }}
               exit={{ opacity: 0 }}
               onClick={() => setActivePartId(null)}
-              className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+              className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
             />
 
             {/* Side sheet */}
@@ -663,47 +643,64 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 bottom-0 z-50 w-full sm:w-[460px] bg-[#0c0c0e] border-l border-white/5 shadow-2xl p-8 sm:p-10 flex flex-col justify-between"
+              className="fixed top-0 right-0 bottom-0 z-50 w-full sm:w-[460px] bg-white border-l border-gray-200/50 shadow-2xl p-8 sm:p-10 flex flex-col justify-between"
             >
               <div className="space-y-8">
                 {/* Header */}
-                <div className="flex items-center justify-between border-b border-white/5 pb-4">
+                <div className="flex items-center justify-between border-b border-gray-100 pb-4">
                   <div className="space-y-1">
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#00c2ff]">Qism tafsilotlari</span>
-                    <h3 className="text-2xl font-black text-white">{activePart.uzName}</h3>
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#0066cc]">Qism tafsilotlari</span>
+                    <h3 className="text-2xl font-black text-gray-900">{activePart.uzName}</h3>
                   </div>
                   <button
                     onClick={() => setActivePartId(null)}
-                    className="p-2 text-gray-500 hover:text-white rounded-full bg-white/5 border border-white/5 hover:bg-white/10 transition-colors"
+                    className="p-2 text-gray-400 hover:text-gray-900 rounded-full bg-gray-50 border border-gray-200/50 hover:bg-gray-100 transition-colors cursor-pointer"
                   >
                     <X className="w-5 h-5" />
                   </button>
                 </div>
 
+                {/* Realistic soundproofing process preview image */}
+                {activePart.image && (
+                  <div className="w-full h-48 rounded-2xl overflow-hidden border border-gray-200/50 relative shadow-inner">
+                    <img
+                      src={activePart.image}
+                      alt={activePart.uzName}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                  </div>
+                )}
+
                 {/* Cost card */}
-                <div className="bg-[#121214] p-6 rounded-2xl border border-white/5 flex items-baseline justify-between">
-                  <span className="text-xs uppercase font-bold text-gray-500">Individual o'rnatish narxi</span>
-                  <span className="text-xl font-extrabold text-[#00c2ff]">{formatUZS(Math.round(activePart.price * vehicleFactor))}</span>
+                <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200/50 shadow-sm flex items-baseline justify-between">
+                  <span className="text-xs uppercase font-bold text-gray-400">Individual o'rnatish narxi</span>
+                  <span className="text-xl font-extrabold text-[#0066cc]">{formatUZS(Math.round(activePart.price * vehicleFactor * materialFactor))}</span>
                 </div>
 
                 {/* Specs text */}
-                <div className="space-y-4 text-sm text-gray-400 leading-relaxed font-light">
+                <div className="space-y-4 text-sm text-gray-600 leading-relaxed font-light">
                   <p>{activePart.description}</p>
                   
-                  <div className="border-t border-white/5 pt-6 space-y-3">
-                    <h4 className="text-xs uppercase font-bold text-white tracking-wider">O'rnatish standartlari:</h4>
+                  <div className="border-t border-gray-100 pt-6 space-y-3">
+                    <h4 className="text-xs uppercase font-bold text-gray-900 tracking-wider">O'rnatish standartlari:</h4>
                     <ul className="space-y-2 text-xs">
                       <li className="flex items-center space-x-2">
-                        <Check className="w-4 h-4 text-emerald-500 shrink-0" />
-                        <span>Sirtni to'liq yog'sizlantirish va tayyorlash</span>
+                        <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                        <span>Sirtni to'liq yog'sizlantirish va professional tayyorlash</span>
                       </li>
                       <li className="flex items-center space-x-2">
-                        <Check className="w-4 h-4 text-emerald-500 shrink-0" />
-                        <span>Premium ComfortMat ko'p qavatli shovqin to'siqlari</span>
+                        <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                        <span>
+                          {selectedTier === "premium" 
+                            ? "ComfortMat Premium Extreme/Viper seriyali ultra samarali materiallar"
+                            : "ComfortMat Standard tebranish va shovqin yutuvchi materiallari"
+                          }
+                        </span>
                       </li>
                       <li className="flex items-center space-x-2">
-                        <Check className="w-4 h-4 text-emerald-500 shrink-0" />
-                        <span>Issiqlik feni va maxsus rolik yordamida to'liq presslash</span>
+                        <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                        <span>Maxsus roliklar va issiqlik feni yordamida to'liq texnologik presslash</span>
                       </li>
                     </ul>
                   </div>
@@ -717,10 +714,10 @@ export default function WorkbenchClient({ service, vehicle }: WorkbenchClientPro
                   togglePart(activePart.id);
                   setActivePartId(null);
                 }}
-                className={`w-full py-4 rounded-xl font-bold transition-all duration-300 ${
+                className={`w-full py-4 rounded-xl font-bold transition-all duration-300 cursor-pointer ${
                   selectedParts.includes(activePart.id)
-                    ? "bg-red-600/10 text-red-500 hover:bg-red-600/20 border border-red-500/20"
-                    : "bg-gradient-to-r from-[#0070f3] to-[#00c2ff] hover:from-[#00c2ff] hover:to-[#0070f3] text-white"
+                    ? "bg-red-50 text-red-600 hover:bg-red-100 border border-red-200/50"
+                    : "bg-gradient-to-r from-[#0066cc] to-[#0099ff] hover:from-[#0099ff] hover:to-[#0066cc] text-white shadow-sm hover:shadow-md"
                 }`}
               >
                 {selectedParts.includes(activePart.id) ? "Konfiguratsiyadan olib tashlash" : "Konfiguratsiyaga qo'shish"}
