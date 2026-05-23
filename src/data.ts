@@ -66,14 +66,6 @@ export const SERVICES: Service[] = [
     image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=1200&auto=format&fit=crop"
   },
   {
-    id: "salon-detailing",
-    title: "Salon deteylingi",
-    uzName: "Salon Deteylingi",
-    description: "Salon plastiklari, ekranlari va porloq qismlarini himoyalash, premium interyer Ambient Light chiroqlarini o'rnatish hamda teri detallarni parvarishlash.",
-    iconName: "Layers",
-    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1200&auto=format&fit=crop"
-  },
-  {
     id: "motor-cleaning",
     title: "Dvigatelni tozalash",
     uzName: "Dvigatelni Tozalash",
@@ -81,68 +73,45 @@ export const SERVICES: Service[] = [
     iconName: "Cpu",
     image: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?q=80&w=1200&auto=format&fit=crop"
   },
-  {
-    id: "anti-chrome",
-    title: "Anti-xrom",
-    uzName: "Anti-Xrom",
-    description: "Tashqi yaltiroq xrom detallarni premium porloq qora (gloss black) vinil plyonkalar bilan qoplash orqali zamonaviy sport uslubiga keltirish.",
-    iconName: "Sliders",
-    image: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=1200&auto=format&fit=crop"
-  }
+
 ];
 
 export const VEHICLES: Vehicle[] = [
   {
-    id: "gentra",
-    name: "Chevrolet Gentra",
+    id: "sedan-m",
+    name: "Sedan M (Nexia 1-2-3, Cobalt, Gentra, Onix va hokazo)",
     category: "sedan",
     image: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=600&auto=format&fit=crop",
     basePrices: {
-      "polishing-ceramic": 1800000,
-      "ximchiska": 800000,
-      "shumka": 4000000,
-      "tonirovka": 900000,
-      "kuzov-himoyasi": 12000000,
-      "salon-detailing": 1000000,
-      "motor-cleaning": 350000,
-      "anti-chrome": 600000
-    }
-  },
-  {
-    id: "cobalt",
-    name: "Chevrolet Cobalt",
-    category: "sedan",
-    image: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=600&auto=format&fit=crop",
-    basePrices: {
-      "polishing-ceramic": 1600000,
-      "ximchiska": 700000,
+      "polishing-ceramic": 1700000,
+      "ximchiska": 750000,
       "shumka": 3800000,
-      "tonirovka": 800000,
-      "kuzov-himoyasi": 10000000,
-      "salon-detailing": 800000,
-      "motor-cleaning": 300000,
-      "anti-chrome": 500000
+      "tonirovka": 850000,
+      "kuzov-himoyasi": 11000000,
+      "salon-detailing": 900000,
+      "motor-cleaning": 320000,
+      "anti-chrome": 550000
     }
   },
   {
-    id: "malibu",
-    name: "Chevrolet Malibu 2",
+    id: "sedan-inomarka",
+    name: "Sedan Inomarka (Malibu, K5, Sonata, BYD Han va hokazo)",
     category: "sedan",
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=600&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1617813730247-86b0c9796797?q=80&w=600&auto=format&fit=crop",
     basePrices: {
-      "polishing-ceramic": 2500000,
-      "ximchiska": 1000000,
-      "shumka": 5000000,
-      "tonirovka": 1200000,
-      "kuzov-himoyasi": 16000000,
-      "salon-detailing": 1500000,
-      "motor-cleaning": 450000,
-      "anti-chrome": 900000
+      "polishing-ceramic": 2400000,
+      "ximchiska": 950000,
+      "shumka": 4900000,
+      "tonirovka": 1150000,
+      "kuzov-himoyasi": 15500000,
+      "salon-detailing": 1450000,
+      "motor-cleaning": 420000,
+      "anti-chrome": 850000
     }
   },
   {
-    id: "tracker",
-    name: "Chevrolet Tracker",
+    id: "crossover",
+    name: "Krossover (Tracker, Captiva, BYD Song Plus va hokazo)",
     category: "crossover",
     image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=600&auto=format&fit=crop",
     basePrices: {
@@ -157,83 +126,35 @@ export const VEHICLES: Vehicle[] = [
     }
   },
   {
-    id: "tahoe",
-    name: "Chevrolet Tahoe",
+    id: "suv",
+    name: "Yo'ltanlamas / SUV (Tahoe, BMW X5, Land Cruiser va hokazo)",
     category: "suv",
     image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600&auto=format&fit=crop",
     basePrices: {
-      "polishing-ceramic": 4000000,
-      "ximchiska": 1600000,
-      "shumka": 7500000,
-      "tonirovka": 1800000,
-      "kuzov-himoyasi": 24000000,
-      "salon-detailing": 2500000,
-      "motor-cleaning": 700000,
-      "anti-chrome": 1500000
+      "polishing-ceramic": 4200000,
+      "ximchiska": 1700000,
+      "shumka": 7800000,
+      "tonirovka": 1900000,
+      "kuzov-himoyasi": 26000000,
+      "salon-detailing": 2750000,
+      "motor-cleaning": 750000,
+      "anti-chrome": 1650000
     }
   },
   {
-    id: "bmw-x5",
-    name: "BMW X5 M-Sport",
-    category: "suv",
-    image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=600&auto=format&fit=crop",
-    basePrices: {
-      "polishing-ceramic": 4500000,
-      "ximchiska": 1800000,
-      "shumka": 8000000,
-      "tonirovka": 2000000,
-      "kuzov-himoyasi": 28000000,
-      "salon-detailing": 3000000,
-      "motor-cleaning": 800000,
-      "anti-chrome": 1800000
-    }
-  },
-  {
-    id: "kia-k5",
-    name: "Kia K5 GT-Line",
-    category: "sedan",
-    image: "https://images.unsplash.com/photo-1617813730247-86b0c9796797?q=80&w=600&auto=format&fit=crop",
-    basePrices: {
-      "polishing-ceramic": 2400000,
-      "ximchiska": 950000,
-      "shumka": 4800000,
-      "tonirovka": 1150000,
-      "kuzov-himoyasi": 15000000,
-      "salon-detailing": 1400000,
-      "motor-cleaning": 400000,
-      "anti-chrome": 800000
-    }
-  },
-  {
-    id: "porsche-911",
-    name: "Porsche 911 Carrera GTS",
-    category: "coupe",
-    image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=600&auto=format&fit=crop",
-    basePrices: {
-      "polishing-ceramic": 5000000,
-      "ximchiska": 1500000,
-      "shumka": 6000000,
-      "tonirovka": 1800000,
-      "kuzov-himoyasi": 32000000,
-      "salon-detailing": 3500000,
-      "motor-cleaning": 1000000,
-      "anti-chrome": 2000000
-    }
-  },
-  {
-    id: "golf-r",
-    name: "Volkswagen Golf 8 R",
+    id: "hatchback",
+    name: "Kichik / Xetchbek (Spark, Golf, Matiz va hokazo)",
     category: "hatchback",
     image: "https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=600&auto=format&fit=crop",
     basePrices: {
-      "polishing-ceramic": 2000000,
-      "ximchiska": 800000,
-      "shumka": 4200000,
-      "tonirovka": 900000,
-      "kuzov-himoyasi": 13000000,
-      "salon-detailing": 1100000,
-      "motor-cleaning": 350000,
-      "anti-chrome": 700000
+      "polishing-ceramic": 1700000,
+      "ximchiska": 700000,
+      "shumka": 3700000,
+      "tonirovka": 800000,
+      "kuzov-himoyasi": 11000000,
+      "salon-detailing": 900000,
+      "motor-cleaning": 300000,
+      "anti-chrome": 500000
     }
   }
 ];

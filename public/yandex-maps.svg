@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="yandexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF5C5C" />
+      <stop offset="100%" stop-color="#E61F1F" />
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="46" fill="url(#yandexGrad)" />
+  <circle cx="50" cy="50" r="41" fill="none" stroke="#FFFFFF" stroke-width="3" opacity="0.9" />
+  <path d="M50 20 L76 74 L50 60 L24 74 Z" fill="#FFFFFF" transform="rotate(45 50 50)" />
+</svg>

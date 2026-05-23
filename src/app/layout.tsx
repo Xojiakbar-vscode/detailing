@@ -15,13 +15,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Elegant Auto Studio | Professional Auto Detailing Services Tashkent",
-  description: "Experience premium automotive care in Tashkent. High-density noise insulation (Shumka) for Malibu, Gentra, Tahoe, BMW, and more.",
-  keywords: "detailing, car detailing, ceramic coating, shumka, noise insulation, Tashkent, PPF, Gentra, Malibu, car polishing",
+  title: "Elegant Auto Studio | Namangan Deteyling va Avtoparvarish Markazi",
+  description: "Namangandagi eng premium avto deteyling markazi. Avtomobillar uchun yuqori sifatli shovqin izolyatsiyasi (Shumka), 9H keramika qoplamasi, abraziv polirovka, kimyoviy tozalash (ximchiska), oyna qoraytirish (tonirovka) va PPF zirhli plyonkalar.",
+  keywords: "detailing namangan, deteyling namangan, elegant auto studio, shumka namangan, shovqin izolyatsiyasi namangan, keramika namangan, polirovka namangan, ximchiska namangan, tonirovka namangan, ppf namangan, zirh plyonka namangan, avtotyuning namangan, avto parvarish",
+  authors: [{ name: "Elegant Auto Studio" }],
+  robots: "index, follow",
   openGraph: {
-    title: "Elegant Auto Studio | Professional Auto Detailing",
-    description: "Experience premium automotive care in Tashkent. High-density noise insulation (Shumka).",
+    title: "Elegant Auto Studio | Professional Deteyling Namangan",
+    description: "Namanganda premium avto parvarish xizmatlari. Shumka, keramika, polirovka va ximchiska.",
     type: "website",
+    locale: "uz_UZ",
+    siteName: "Elegant Auto Studio",
   }
 };
 
@@ -32,10 +36,10 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark overflow-x-hidden max-w-full`}
+      lang="uz"
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased overflow-x-hidden max-w-full`}
     >
-      <body className="min-h-full flex flex-col bg-[#050505] text-gray-100 overflow-x-hidden relative">
+      <body className="min-h-full flex flex-col bg-white text-gray-900 overflow-x-hidden relative">
         {/* Universal Ambient Mesh Background */}
         <div className="mesh-glow-bg" />
 

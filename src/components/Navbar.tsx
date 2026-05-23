@@ -53,7 +53,10 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <span className="text-xl font-bold tracking-widest text-gray-900">
-              Elegant Auto<span className="text-[#0070f3]"> Studio</span>
+              Elegant Auto
+              <span className="bg-gradient-to-r from-sky-500 via-cyan-400 to-blue-600 bg-clip-text text-transparent">
+                Studio
+              </span>
             </span>
           </Link>
 
@@ -77,7 +80,7 @@ export default function Navbar() {
               href="https://t.me/elegant_auto_admin"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:flex items-center space-x-2 bg-gradient-to-r from-[#0066cc] to-[#0099ff] hover:from-[#0099ff] hover:to-[#0066cc] text-white text-xs font-semibold px-5 py-2.5 rounded-full shadow-[0_4px_15px_rgba(0,102,204,0.15)] hover:shadow-[0_4px_25px_rgba(0,153,255,0.25)] transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
+              className="hidden sm:flex items-center space-x-2 bg-gradient-to-r from-sky-500 via-cyan-500 to-blue-600 hover:from-blue-600 hover:via-cyan-400 hover:to-sky-500 text-white text-xs font-semibold px-5 py-2.5 rounded-full shadow-[0_4px_15px_rgba(56,189,248,0.18)] hover:shadow-[0_4px_25px_rgba(56,189,248,0.28)] transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
             >
               <Send className="w-3.5 h-3.5" />
               <span>Telegram orqali yozilish</span>
@@ -133,7 +136,7 @@ export default function Navbar() {
                 href="https://t.me/elegant_auto_admin"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-[#0066cc] to-[#0099ff] text-white font-bold py-4 rounded-xl shadow-[0_4px_15px_rgba(0,102,204,0.15)] cursor-pointer"
+                className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-sky-500 via-cyan-500 to-blue-600 text-white font-bold py-4 rounded-xl shadow-[0_4px_15px_rgba(56,189,248,0.18)] hover:shadow-[0_4px_25px_rgba(56,189,248,0.28)] transition-shadow duration-300 cursor-pointer"
               >
                 <Send className="w-4 h-4" />
                 <span>Telegram orqali yozilish</span>

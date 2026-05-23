@@ -18,7 +18,8 @@ import {
   MapPin, 
   Compass, 
   Clock, 
-  PhoneCall
+  PhoneCall,
+  Apple
 } from "lucide-react";
 import { SERVICES } from "@/data";
 
@@ -107,7 +108,7 @@ export default function HomePage() {
         <div 
           className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 scale-[1.03]"
           style={{ 
-            backgroundImage: "url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=2000&auto=format&fit=crop')",
+            backgroundImage: "url('/background.png')",
           }}
         >
           {/* Deep dark gradient overlay transitioning to white */}
@@ -123,12 +124,10 @@ export default function HomePage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="space-y-6"
           >
-            <span className="inline-block bg-white/10 backdrop-blur-md text-xs font-semibold tracking-[0.2em] uppercase text-white px-4 py-2 rounded-full border border-white/20">
-              Avtoparvarish bo'yicha oltin standart
-            </span>
+            
 
             <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tight text-white leading-none">
-              Professional Deteyling <br />
+              Elegant Auto Studio <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-[#00c2ff]">
                 Xizmatlari
               </span>
@@ -164,11 +163,9 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center space-y-4 mb-16 sm:mb-20">
-            <h2 className="text-xs font-semibold tracking-[0.25em] uppercase text-[#0066cc]">
-              Esklyuziv Xizmatlar
-            </h2>
+           
             <p className="text-2xl sm:text-5xl font-bold tracking-tight text-gray-900">
-              Bizning Professional Xizmatlarimiz
+              Bizning  Xizmatlarimiz
             </p>
             <div className="w-12 h-1 bg-gradient-to-r from-[#0066cc] to-[#0099ff] mx-auto rounded-full" />
           </div>
@@ -273,10 +270,6 @@ export default function HomePage() {
                         <MapPin className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
                         <span>{branch.address}</span>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <Clock className="w-4 h-4 text-gray-400 shrink-0" />
-                        <span>{branch.hours}</span>
-                      </div>
                     </div>
                   </div>
 
@@ -314,8 +307,13 @@ export default function HomePage() {
                       href={`https://www.google.com/maps/search/?api=1&query=${branch.coordinates.lat},${branch.coordinates.lng}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center space-x-1.5 bg-white border border-gray-200/80 hover:border-[#0066cc]/30 hover:bg-[#0066cc]/5 py-2.5 rounded-xl text-[10px] font-bold text-gray-600 hover:text-[#0066cc] transition-colors"
+                      className="group flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-1.5 bg-white hover:bg-emerald-50/20 border border-gray-200/85 hover:border-emerald-500/35 py-2.5 rounded-xl text-[9px] font-bold text-gray-600 hover:text-emerald-600 transition-all duration-300 shadow-sm"
                     >
+                      <img
+                        src="/google-maps.svg"
+                        alt="Google Maps"
+                        className="w-4 h-4 shrink-0 object-contain group-hover:scale-110 transition-transform duration-200"
+                      />
                       <span>Google</span>
                     </a>
 
@@ -324,8 +322,13 @@ export default function HomePage() {
                       href={`https://yandex.com/maps/?text=${branch.coordinates.lat},${branch.coordinates.lng}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center space-x-1.5 bg-white border border-gray-200/80 hover:border-[#0066cc]/30 hover:bg-[#0066cc]/5 py-2.5 rounded-xl text-[10px] font-bold text-gray-600 hover:text-[#0066cc] transition-colors"
+                      className="group flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-1.5 bg-white hover:bg-red-50/20 border border-gray-200/85 hover:border-red-500/35 py-2.5 rounded-xl text-[9px] font-bold text-gray-600 hover:text-red-600 transition-all duration-300 shadow-sm"
                     >
+                      <img
+                        src="/yandex-maps.svg"
+                        alt="Yandex Maps"
+                        className="w-4 h-4 shrink-0 object-contain group-hover:scale-110 transition-transform duration-200"
+                      />
                       <span>Yandex</span>
                     </a>
 
@@ -334,8 +337,13 @@ export default function HomePage() {
                       href={`https://maps.apple.com/?q=${encodeURIComponent(branch.name)}&ll=${branch.coordinates.lat},${branch.coordinates.lng}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center space-x-1.5 bg-white border border-gray-200/80 hover:border-[#0066cc]/30 hover:bg-[#0066cc]/5 py-2.5 rounded-xl text-[10px] font-bold text-gray-600 hover:text-[#0066cc] transition-colors"
+                      className="group flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-1.5 bg-white hover:bg-gray-50/60 border border-gray-200/85 hover:border-gray-800/30 py-2.5 rounded-xl text-[9px] font-bold text-gray-600 hover:text-gray-900 transition-all duration-300 shadow-sm"
                     >
+                      <img
+                        src="/apple-maps.svg"
+                        alt="Apple Maps"
+                        className="w-4 h-4 shrink-0 object-contain group-hover:scale-110 transition-transform duration-200"
+                      />
                       <span>Apple</span>
                     </a>
                   </div>
@@ -345,6 +353,50 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* 5. FLOATING BRAND SOCIAL BAR (STICKY - ZERO OVERLAP WITH RIGHT SIDE) */}
+      <div className="fixed bottom-6 left-6 z-40 flex flex-row md:flex-col space-x-3 md:space-x-0 md:space-y-3.5 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:left-6">
+        {/* Telegram */}
+        <a
+          href="https://t.me/auto_studio_elegant"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group w-11 h-11 rounded-full bg-[#0088cc] text-white flex items-center justify-center transition-all duration-300 shadow-md hover:scale-115 hover:shadow-[0_4px_15px_rgba(0,136,204,0.4)]"
+          title="Telegram Kanalimiz"
+        >
+          <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current transition-transform duration-300 group-hover:rotate-6">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.53-1.4.51-.46-.01-1.35-.26-2.01-.48-.81-.27-1.46-.42-1.4-.88.03-.24.36-.49.99-.75 3.88-1.69 6.46-2.8 7.74-3.33 3.68-1.52 4.44-1.78 4.94-1.79.11 0 .36.03.52.16.14.12.18.28.2.44-.02.07 0 .2-.02.26z"/>
+          </svg>
+        </a>
+
+        {/* Instagram */}
+        <a
+          href="https://www.instagram.com/elegant_auto.studio?igsh=MzRlODBiNWFlZA=="
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group w-11 h-11 rounded-full bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] text-white flex items-center justify-center transition-all duration-300 shadow-md hover:scale-115 hover:shadow-[0_4px_15px_rgba(238,42,123,0.4)]"
+          title="Instagram Sahifamiz"
+        >
+          <svg viewBox="0 0 24 24" className="w-5 h-5 stroke-current fill-none transition-transform duration-300 group-hover:scale-110" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <path d="M17.5 6.5 H17.51" strokeWidth="3.2" strokeLinecap="round"></path>
+          </svg>
+        </a>
+
+        {/* YouTube */}
+        <a
+          href="https://youtube.com/@elegantautostudio4141?si=E0ndlDmyFJNqhXIq"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group w-11 h-11 rounded-full bg-[#ff0000] text-white flex items-center justify-center transition-all duration-300 shadow-md hover:scale-115 hover:shadow-[0_4px_15px_rgba(255,0,0,0.4)]"
+          title="YouTube Kanalimiz"
+        >
+          <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current transition-transform duration-300 group-hover:rotate-6">
+            <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.508 9.388.508 9.388.508s7.518 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+        </a>
+      </div>
     </div>
   );
 }
